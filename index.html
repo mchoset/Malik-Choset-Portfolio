@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Malik Choset — Mechanical Engineer</title>
+<title>Malik Choset</title>
 
 <!--
-TEST 2
 ====================================================================
-  HOW TO USE THIS FILE TEST
+  HOW TO USE THIS FILE
 ====================================================================
   1. IMAGES & VIDEOS
      Every project has ONE cover photo visible on the page, plus a
      hidden set of extra photos. Clicking the cover opens a full
-     screen lightbox where the visitor can click through every
-     photo for that project.
+     screen popup showing the photo (with arrows to click through
+     every photo for that project) AND the project's description
+     underneath it.
 
      Each photo slot is marked with a comment like:
 
@@ -24,11 +24,11 @@ TEST 2
          <div class="media-slot photo">...</div>
      Delete the placeholder and put your own image in its place,
      keeping the "photo" class so it's picked up by the gallery:
-         <img class="photo" src="images/your-file.jpg" alt="describe the image">
+         <img class="photo" src="your-file.jpg" alt="describe the image">
 
      The FIRST .photo inside an .entry__media block is always the
      visible cover image. Every .photo after it is hidden on the
-     page itself, but still shows up when the lightbox opens.
+     page itself, but still shows up when the popup opens.
 
      For video, see the VIDEO INSERT POINT example inside the first
      project entry (#project-1) — a video can be used as the cover
@@ -38,22 +38,22 @@ TEST 2
          /images/...
          /videos/...
 
-  2. ADDING ANOTHER PROJECT
+  2. PROJECT DESCRIPTIONS LIVE IN THE POPUP ONLY
+     The bullet list for each project (inside .entry__details) is
+     never shown on the page itself — it's only read by the script
+     and displayed inside the popup when you click that project's
+     cover photo. You don't need to do anything extra; just keep
+     writing your bullets inside the existing <ul class="entry__bullets">.
+
+  3. ADDING ANOTHER PROJECT
      Find the comment "PROJECT ENTRY TEMPLATE" inside the Work
      section, copy the whole <article class="entry" id="project-X">
      block, paste it after the last project, and give it a new id.
-     No extra JS work needed — the lightbox automatically picks up
-     any .entry__media block on the page.
+     The popup wires itself up automatically — no extra JS needed.
 
-  3. COLORS / FONTS
+  4. COLORS / FONTS
      All colors and fonts are defined once at the top of the <style>
      block under :root. Change them there and the whole page updates.
-
-  4. STRUCTURE
-     The page mirrors a traditional resume layout: small-caps
-     section headers with a rule underneath, bold title / right-
-     aligned meta rows, and bullet lists — just like the LaTeX
-     resume this was based on.
 ====================================================================
 -->
 
@@ -151,7 +151,7 @@ TEST 2
   }
 
   /* ============================================================
-     HEADER BLOCK — mirrors the resume's centered name + contact line
+     HEADER BLOCK
      ============================================================ */
   .header-block{
     text-align:center;
@@ -172,17 +172,19 @@ TEST 2
   .header-block__contact a:hover{border-bottom-color:var(--accent);}
   .header-block__dot{margin:0 8px;color:var(--gray-light);}
   .header-block__role{
-    margin-top:18px;
+    margin-top:20px;
     font-size:16px;
     font-style:italic;
     color:var(--ink);
-    max-width:560px;
+    max-width:600px;
+    line-height:1.6;
     margin-left:auto;
     margin-right:auto;
   }
+  .header-block__role strong{font-style:normal;font-weight:700;}
 
   /* ============================================================
-     SECTION HEADER — small caps + rule, exactly like the resume
+     SECTION HEADER — small caps + rule
      ============================================================ */
   section{padding:8px 32px 0;}
   .section-inner{
@@ -201,12 +203,11 @@ TEST 2
   }
 
   /* ============================================================
-     ENTRY — shared pattern for Work
-     (title bold left / meta right, role italic left / detail
-     italic right — same as \resumeSubheading in the LaTeX)
+     ENTRY
      ============================================================ */
   .entry{margin-bottom:40px;}
   .entry:last-child{margin-bottom:0;}
+
   .entry__row{
     display:flex;
     justify-content:space-between;
@@ -223,6 +224,7 @@ TEST 2
     color:var(--gray);
     white-space:nowrap;
   }
+
   .entry__row--sub{margin-top:2px;}
   .entry__role,
   .entry__tools{
@@ -231,20 +233,16 @@ TEST 2
     color:var(--gray);
   }
 
-  .entry__bullets{
-    margin-top:12px;
-    padding-left:18px;
-  }
-  .entry__bullets li{
-    margin-bottom:6px;
-    font-size:15px;
-    line-height:1.6;
-  }
+  /* Bullets are never shown on the page itself — only read by the
+     script and rendered inside the photo popup. Keep writing them
+     here as usual. */
+  .entry__details{display:none;}
 
   /* ============================================================
-     MEDIA — one clickable cover photo per project.
+     MEDIA — one clickable cover photo per project. Clicking it
+     opens the popup with the photo gallery AND the description.
      The first .photo is the visible cover; later .photo elements
-     stay in the DOM (for the lightbox) but are hidden on the page.
+     stay in the DOM (for the popup) but are hidden on the page.
      ============================================================ */
   .entry__media{
     position:relative;
@@ -258,6 +256,32 @@ TEST 2
   .entry__media .photo:not(:first-child){display:none;}
   .entry__media .photo img,
   .entry__media .photo video{width:100%;display:block;}
+
+  /* Smaller cover for the EigenBot entries — 1/3 the normal width */
+  .entry__media--small{max-width:33%;margin-left:auto;margin-right:auto;}
+
+  /* Hide the "View N photos" badge on specific entries */
+  .entry__media--no-hint .entry__media__hint{display:none;}
+
+  /* Play button overlay for video covers */
+  .entry__media--video .photo:first-child{background:#101010;}
+  .entry__media__play{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:rgba(26,26,26,0.78);
+    color:var(--white);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    pointer-events:none;
+    z-index:2;
+  }
 
   .entry__media__hint{
     position:absolute;
@@ -292,78 +316,132 @@ TEST 2
   }
 
   /* ============================================================
-     LIGHTBOX — full screen photo viewer, shared across all projects
+     POPUP — photo viewer + project description, shared across
+     every project on the page.
      ============================================================ */
   .lightbox{
     position:fixed;
     inset:0;
     z-index:100;
-    background:rgba(10,10,10,0.94);
+    background:rgba(10,10,10,0.85);
     display:flex;
     align-items:center;
     justify-content:center;
+    padding:24px;
   }
   .lightbox[hidden]{display:none;}
+
+  .lightbox__panel{
+    background:var(--white);
+    width:100%;
+    max-width:720px;
+    max-height:90vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    border:1px solid var(--gray-light);
+  }
+
   .lightbox__stage{
-    max-width:88vw;
-    max-height:78vh;
+    position:relative;
+    background:#101010;
+    flex-shrink:0;
+  }
+  .lightbox__stage-media{
+    width:100%;
+    max-height:52vh;
     display:flex;
     align-items:center;
     justify-content:center;
+    background:#101010;
   }
-  .lightbox__stage img,
-  .lightbox__stage video{
-    max-width:88vw;
-    max-height:78vh;
+  .lightbox__stage-media img,
+  .lightbox__stage-media video{
+    max-width:100%;
+    max-height:52vh;
     width:auto;
     height:auto;
     object-fit:contain;
+    display:block;
   }
-  .lightbox__stage .media-slot{
-    width:min(70vw,640px);
+  .lightbox__stage-media .media-slot{
+    width:100%;
     aspect-ratio:16/9;
-    background:#222;
-    color:#bbb;
+    background:#1b1b1b;
+    color:#999;
   }
-  .lightbox__close,
+
+  .lightbox__caption{
+    padding:22px 26px 26px;
+    overflow-y:auto;
+  }
+  .lightbox__caption-title{
+    font-size:18px;
+    font-weight:700;
+  }
+  .lightbox__caption-meta{
+    font-size:13.5px;
+    font-style:italic;
+    color:var(--gray);
+    margin-top:3px;
+    margin-bottom:14px;
+  }
+  .lightbox__bullets{padding-left:18px;}
+  .lightbox__bullets li{
+    margin-bottom:6px;
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  .lightbox__close{
+    position:absolute;
+    top:12px;right:14px;
+    background:rgba(10,10,10,0.55);
+    color:var(--white);
+    border:none;
+    font-family:var(--font-serif);
+    font-size:20px;
+    line-height:1;
+    width:32px;height:32px;
+    border-radius:50%;
+    cursor:pointer;
+    z-index:3;
+  }
   .lightbox__prev,
   .lightbox__next{
     position:absolute;
-    background:none;
-    border:none;
-    color:var(--white);
-    font-family:var(--font-serif);
-    cursor:pointer;
-  }
-  .lightbox__close{
-    top:18px;right:22px;
-    font-size:30px;
-    line-height:1;
-  }
-  .lightbox__prev,
-  .lightbox__next{
     top:50%;
     transform:translateY(-50%);
-    font-size:38px;
-    padding:8px 14px;
+    background:rgba(10,10,10,0.4);
+    color:var(--white);
+    border:none;
+    font-family:var(--font-serif);
+    font-size:26px;
+    width:38px;height:46px;
+    cursor:pointer;
+    z-index:3;
   }
   .lightbox__prev{left:6px;}
   .lightbox__next{right:6px;}
   .lightbox__close:hover,
   .lightbox__prev:hover,
-  .lightbox__next:hover{color:var(--gray-light);}
+  .lightbox__next:hover{background:rgba(10,10,10,0.7);}
   .lightbox__counter{
     position:absolute;
-    bottom:20px;
+    bottom:10px;
     left:50%;
     transform:translateX(-50%);
-    color:#cfcfcf;
-    font-size:13px;
+    color:#eee;
+    font-size:12px;
     letter-spacing:0.05em;
+    background:rgba(10,10,10,0.4);
+    padding:3px 9px;
+    z-index:3;
   }
 
   /* ============================================================
-     SKILLS — bold category label + comma list, like the resume
+     SKILLS
      ============================================================ */
   .skills__row{
     margin-bottom:10px;
@@ -405,8 +483,8 @@ TEST 2
         <a href="#work">Work</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
-        <!-- Point this at your resume PDF if you want a direct download link -->
-        <a href="resume.pdf">Resume</a>
+        <!-- Point this at your resume PDF — the "download" attribute makes it download the file instead of just navigating to it -->
+        <a href="Malik_Choset_Resume.pdf" download>Resume</a>
       </nav>
     </div>
   </header>
@@ -423,9 +501,13 @@ TEST 2
         <a href="mailto:mchoset@andrew.cmu.edu">mchoset@andrew.cmu.edu</a>
         <span class="header-block__dot">·</span>
         <a href="https://www.linkedin.com/in/malik-choset" target="_blank" rel="noopener">linkedin.com/in/malik-choset</a>
+        <span class="header-block__dot">·</span>
+        <!-- Second resume download option, right in the contact line. Same file as the nav link above. -->
+        <a href="Malik_Choset_Resume.pdf" download>Resume</a>
       </div>
+      <!-- EDIT ME: degree / college / GPA — each wrapped in <strong> so it stays bold -->
       <p class="header-block__role">
-        Mechanical Engineering @ CMU | 4.00 GPA
+        <strong>Mechanical Engineering</strong> @ <strong>Carnegie Mellon University</strong> &middot; <strong>4.00 GPA</strong>
       </p>
     </div>
   </section>
@@ -440,14 +522,15 @@ TEST 2
       <!-- ==========================================================
            PROJECT ENTRY TEMPLATE — copy this whole <article> block
            (from <article class="entry" to its closing </article>)
-           to add another project further down the page.
+           to add another project further down the page. Update the
+           id on the <article> and the aria-label on the media block.
            ========================================================== -->
 
       <!-- Project 1: Formula SAE Rear Wing -->
       <article class="entry" id="project-1">
         <div class="entry__row">
           <span class="entry__title">Formula SAE Rear Wing</span>
-          <span class="entry__meta">CMU Racing</span>
+          <span class="entry__meta">Carnegie Mellon Racing</span>
         </div>
         <div class="entry__row entry__row--sub">
           <span class="entry__role">Rear Wing System Lead</span>
@@ -455,48 +538,27 @@ TEST 2
         </div>
 
         <!--
-          Click-to-expand photo gallery. The first .photo below is the
-          visible cover image; the rest stay hidden until clicked.
+          Click-to-expand photo + description popup. The first .photo
+          below is the visible cover image; the rest stay hidden until
+          clicked, same as the description text underneath.
         -->
-        <div class="entry__media" tabindex="0" role="button" aria-label="View all photos for Formula SAE Rear Wing">
+        <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE Rear Wing">
 
-          <!--
-            IMAGE INSERT POINT — cover photo (shown on the page)
-            <img class="photo" src="images/rear-wing-hero.jpg" alt="Formula SAE rear wing on the car">
-          -->
-          <div class="media-slot photo">16:9 — drop cover photo here</div>
-
-          <!--
-            ================================================================
-            VIDEO INSERT POINT — example usage. A video can be used as the
-            cover image (use the poster attribute as its thumbnail) or as
-            one of the hidden extra photos below — just keep the "photo"
-            class so the lightbox picks it up.
-            ================================================================
-
-            <video class="photo" controls poster="images/cfd-poster.jpg">
-              <source src="videos/rear-wing-cfd.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            ================================================================
-          -->
-
-          <!-- IMAGE INSERT POINT — extra photo A (hidden, shown in lightbox) -->
-          <!-- <img class="photo" src="images/rear-wing-cad.jpg" alt="Rear wing SolidWorks model"> -->
-          <div class="media-slot photo">e.g. CAD model</div>
-
-          <!-- IMAGE INSERT POINT — extra photo B (hidden, shown in lightbox) -->
-          <!-- <img class="photo" src="images/rear-wing-cfd.jpg" alt="Rear wing CFD pressure contour"> -->
-          <div class="media-slot photo">e.g. CFD contour plot</div>
+          <img class="photo" src="RWG_Cover.png" alt="Formula SAE rear wing on the car">
+          <img class="photo" src="RWG_2d_cfd.png" alt="Rear wing 2D CFD pressure contour">
+          <img class="photo" src="RWG_Airfoils.png" alt="Rear wing airfoil profiles">
 
           <span class="entry__media__hint"></span>
         </div>
 
-        <ul class="entry__bullets">
-          <li>Designing an adjustable rear wing system in SolidWorks, prioritizing variable element configurations for rapid tuning between dynamic events.</li>
-          <li>Built a parameterized CFD pipeline, cutting setup time per design iteration and enabling hundreds of aerodynamic configurations to be evaluated through geometric sweeps.</li>
-          <li>Optimizing structural integrity with FEA in Ansys Mechanical, minimizing mass while holding to structural targets.</li>
-        </ul>
+        <!-- Description — never shown inline, only read into the popup -->
+        <div class="entry__details">
+          <ul class="entry__bullets">
+            <li>Designing an adjustable rear wing system in SolidWorks, prioritizing variable element configurations for rapid tuning between dynamic events.</li>
+            <li>Built a parameterized CFD pipeline, cutting setup time per design iteration and enabling hundreds of aerodynamic configurations to be evaluated through geometric sweeps.</li>
+            <li>Optimizing structural integrity with FEA in Ansys Mechanical, minimizing mass while holding to structural targets.</li>
+          </ul>
+        </div>
       </article>
 
       <hr class="divider">
@@ -505,34 +567,32 @@ TEST 2
       <article class="entry" id="project-2">
         <div class="entry__row">
           <span class="entry__title">Formula SAE DRS</span>
-          <span class="entry__meta">CMU Racing</span>
+          <span class="entry__meta">Carnegie Mellon Racing</span>
         </div>
         <div class="entry__row entry__row--sub">
           <span class="entry__role">Drag Reduction System Lead</span>
-          <span class="entry__tools">SolidWorks · Ansys Fluent · Ansys Mechanical · MATLAB</span>
+          <span class="entry__tools">SolidWorks · Ansys Mechanical · MATLAB</span>
         </div>
 
-        <div class="entry__media" tabindex="0" role="button" aria-label="View all photos for Formula SAE DRS">
-          <!-- IMAGE INSERT POINT — cover photo -->
-          <!-- <img class="photo" src="images/drs-hero.jpg" alt="Formula SAE drag reduction system mechanism"> -->
-          <div class="media-slot photo">16:9 — drop cover photo here</div>
+        <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE DRS">
 
-          <!-- IMAGE INSERT POINT — extra photo A -->
-          <!-- <img class="photo" src="images/drs-actuation.jpg" alt="DRS actuation free body diagram"> -->
-          <div class="media-slot photo">e.g. actuation diagram</div>
-
-          <!-- IMAGE INSERT POINT — extra photo B -->
-          <!-- <img class="photo" src="images/drs-fea.jpg" alt="DRS FEA stress results"> -->
-          <div class="media-slot photo">e.g. FEA stress plot</div>
+          <img class="photo" src="DRS_Cover_Photo.png" alt="Formula SAE drag reduction system mechanism">
+          <img class="photo" src="DRS_Sketch.png" alt="DRS concept sketch">
+          <img class="photo" src="DRS_FoS_Graph.png" alt="DRS factor of safety graph">
+          <img class="photo" src="DRS_Setup_1.png" alt="DRS test setup">
+          <img class="photo" src="DRS_Results_1.png" alt="DRS results plot 1">
+          <img class="photo" src="DRS_Results_2.png" alt="DRS results plot 2">
 
           <span class="entry__media__hint"></span>
         </div>
 
-        <ul class="entry__bullets">
-          <li>Designed the active aerodynamics element for the Formula Student Electric race car using SolidWorks and Ansys Fluent, achieving up to a 45% reduction in drag between open and closed positions.</li>
-          <li>Validated system actuation and performance by developing free body diagrams and mathematical models in MATLAB, confirming the mechanism met all targeted kinematic goals.</li>
-          <li>Optimized structural integrity using Ansys Mechanical, reducing overall mechanism mass by more than 75% versus the previous year's design while maintaining structural performance.</li>
-        </ul>
+        <div class="entry__details">
+          <ul class="entry__bullets">
+            <li>Designed the active aerodynamics element for the Formula Student Electric race car using SolidWorks and Ansys Fluent, achieving up to a 45% reduction in drag between open and closed positions.</li>
+            <li>Validated system actuation and performance by developing free body diagrams and mathematical models in MATLAB, confirming the mechanism met all targeted kinematic goals.</li>
+            <li>Optimized structural integrity using Ansys Mechanical, reducing overall mechanism mass by more than 75% versus the previous year's design while maintaining structural performance.</li>
+          </ul>
+        </div>
       </article>
 
       <hr class="divider">
@@ -544,31 +604,33 @@ TEST 2
           <span class="entry__meta">Personal Project</span>
         </div>
         <div class="entry__row entry__row--sub">
-          <span class="entry__role">Designer &amp; Developer</span>
+          <span class="entry__role"></span>
           <span class="entry__tools">Python · SolidWorks API</span>
         </div>
 
-        <div class="entry__media" tabindex="0" role="button" aria-label="View all photos for Cycloidal Drive Generator">
-          <!-- IMAGE INSERT POINT — cover photo -->
-          <!-- <img class="photo" src="images/cycloidal-hero.jpg" alt="Cycloidal drive generator app and gear output"> -->
-          <div class="media-slot photo">16:9 — drop cover photo here</div>
+        <div class="entry__media entry__media--no-hint entry__media--video" tabindex="0" role="button" aria-label="View video and description for Cycloidal Drive Generator">
+          <video class="photo" preload="metadata" muted playsinline>
+            <source src="Cycloidal_Cover.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="entry__media__play" aria-hidden="true">&#9658;</div>
 
           <!-- IMAGE INSERT POINT — extra photo A -->
-          <!-- <img class="photo" src="images/cycloidal-app.jpg" alt="Cycloidal drive generator GUI"> -->
-          <div class="media-slot photo">e.g. app screenshot</div>
+          <!-- <img class="photo" src="cycloidal-app.jpg" alt="Cycloidal drive generator GUI"> -->
 
           <!-- IMAGE INSERT POINT — extra photo B -->
-          <!-- <img class="photo" src="images/cycloidal-gear.jpg" alt="3D printed cycloidal gear set"> -->
-          <div class="media-slot photo">e.g. printed gear set</div>
+          <!-- <img class="photo" src="cycloidal-gear.jpg" alt="3D printed cycloidal gear set"> -->
 
           <span class="entry__media__hint"></span>
         </div>
 
-        <ul class="entry__bullets">
-          <li>Developed an interactive graphical app for parametric cycloidal drive generation, computing exact coordinate matrices and validating user-defined parameters to prevent invalid gear geometry while enabling rapid visual feedback.</li>
-          <li>Automated 3D modeling of gear components by integrating with the SolidWorks API, eliminating manual CAD drafting time.</li>
-          <li>Automated a manufacturing pipeline by scripting the extraction from SolidWorks, generating 3D printable files.</li>
-        </ul>
+        <div class="entry__details">
+          <ul class="entry__bullets">
+            <li>Developed an interactive graphical app for parametric cycloidal drive generation, computing exact coordinate matrices and validating user-defined parameters to prevent invalid gear geometry while enabling rapid visual feedback.</li>
+            <li>Automated 3D modeling of gear components by integrating with the SolidWorks API, eliminating manual CAD drafting time.</li>
+            <li>Automated a manufacturing pipeline by scripting the extraction from SolidWorks, generating 3D printable files.</li>
+          </ul>
+        </div>
       </article>
 
       <hr class="divider">
@@ -581,29 +643,28 @@ TEST 2
         </div>
         <div class="entry__row entry__row--sub">
           <span class="entry__role">Modular Robotics Research Assistant</span>
-          <span class="entry__tools">Fusion 360</span>
+          <span class="entry__tools">Ansys Mechanical · Fusion 360</span>
         </div>
 
-        <div class="entry__media" tabindex="0" role="button" aria-label="View all photos for 2DoF Module EigenBot">
-          <!-- IMAGE INSERT POINT — cover photo -->
-          <!-- <img class="photo" src="images/2dof-hero.jpg" alt="EigenBot 2DoF module"> -->
-          <div class="media-slot photo">16:9 — drop cover photo here</div>
-
-          <!-- IMAGE INSERT POINT — extra photo A -->
-          <!-- <img class="photo" src="images/2dof-exploded.jpg" alt="2DoF module exploded CAD view"> -->
-          <div class="media-slot photo">e.g. exploded view</div>
-
-          <!-- IMAGE INSERT POINT — extra photo B -->
-          <!-- <img class="photo" src="images/2dof-onrobot.jpg" alt="2DoF module mounted on EigenBot"> -->
-          <div class="media-slot photo">e.g. on-robot photo</div>
+        <div class="entry__media entry__media--small" tabindex="0" role="button" aria-label="View photos and description for 2DoF Module EigenBot">
+          
+          <img class="photo" src="2DoF_Cover.png" alt="EigenBot 2DoF module">
+          <img class="photo" src="2DoF_Actuated.png" alt="2DoF module actuated">
+          <img class="photo" src="2DoF_Size_Comparison.png" alt="2DoF module size comparison">
+          <img class="photo" src="2DoF_Setup_1.png" alt="2DoF module test setup 1">
+          <img class="photo" src="2DoF_Results_1.png" alt="2DoF module results plot 1">
+          <img class="photo" src="2DoF_Setup_2.png" alt="2DoF module test setup 2">
+          <img class="photo" src="2DoF_Results_2.png" alt="2DoF module results plot 2">
 
           <span class="entry__media__hint"></span>
         </div>
 
-        <ul class="entry__bullets">
-          <li>Developed a compact 2 degree-of-freedom module for the EigenBot system, optimizing motor packaging and material selection in Fusion 360.</li>
-          <li>Reduced the overall module form factor by 20 percent through iterative design refinement.</li>
-        </ul>
+        <div class="entry__details">
+          <ul class="entry__bullets">
+            <li>Developed a compact 2 degree-of-freedom module for the EigenBot system, optimizing motor packaging and material selection in Fusion 360.</li>
+            <li>Reduced the overall module form factor by 20 percent through iterative design refinement.</li>
+          </ul>
+        </div>
       </article>
 
       <hr class="divider">
@@ -619,26 +680,25 @@ TEST 2
           <span class="entry__tools">Ansys Mechanical · Fusion 360</span>
         </div>
 
-        <div class="entry__media" tabindex="0" role="button" aria-label="View all photos for Robotic Gripper EigenBot">
-          <!-- IMAGE INSERT POINT — cover photo -->
-          <!-- <img class="photo" src="images/gripper-hero.jpg" alt="EigenBot force sensing gripper"> -->
-          <div class="media-slot photo">16:9 — drop cover photo here</div>
+        <div class="entry__media entry__media--small" tabindex="0" role="button" aria-label="View photos and description for Robotic Gripper EigenBot">
+          <img class="photo" src="Gripper_Cover.png" alt="EigenBot force sensing gripper">
 
-          <!-- IMAGE INSERT POINT — extra photo A -->
-          <!-- <img class="photo" src="images/gripper-fea.jpg" alt="Gripper FEA compression results"> -->
-          <div class="media-slot photo">e.g. FEA results</div>
+          <img class="photo" src="Gripper_Cross_Section.png" alt="Gripper cross section view">
 
-          <!-- IMAGE INSERT POINT — extra photo B -->
-          <!-- <img class="photo" src="images/gripper-grasp.jpg" alt="Gripper grasping an object"> -->
-          <div class="media-slot photo">e.g. grasp demo photo</div>
+          <video class="photo" controls>
+            <source src="Gripper_Displacements.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
 
           <span class="entry__media__hint"></span>
         </div>
 
-        <ul class="entry__bullets">
-          <li>Developed a force-sensing gripper and foot module for the EigenBot modular robot system, engineering a compressible structure with an internal magnet driven by FEA results from Ansys Mechanical.</li>
-          <li>Established novel force feedback capabilities to optimize locomotion and grasping.</li>
-        </ul>
+        <div class="entry__details">
+          <ul class="entry__bullets">
+            <li>Developed a force-sensing gripper and foot module for the EigenBot modular robot system, engineering a compressible structure with an internal magnet driven by FEA results from Ansys Mechanical.</li>
+            <li>Established novel force feedback capabilities to optimize locomotion and grasping.</li>
+          </ul>
+        </div>
       </article>
 
     </div>
@@ -655,23 +715,6 @@ TEST 2
       <div class="skills__row"><b>Analysis Software:</b> Ansys Mechanical, Ansys Fluent, Luminary CFD</div>
       <div class="skills__row"><b>Manufacturing:</b> CNC Mill, Manual Mill, Manual Lathe, 3D Printing</div>
       <div class="skills__row"><b>Data Analytics:</b> Python, MATLAB, Microsoft Excel</div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       EDUCATION
-       ============================================================ -->
-  <section id="education">
-    <div class="section-inner">
-      <h2 class="section-title">Education</h2>
-      <div class="entry__row">
-        <span class="entry__title">Carnegie Mellon University</span>
-        <span class="entry__meta">Pittsburgh, PA</span>
-      </div>
-      <div class="entry__row entry__row--sub">
-        <span class="entry__role">B.S. in Mechanical Engineering · GPA: 4.00</span>
-        <span class="entry__tools">May 2029</span>
-      </div>
     </div>
   </section>
 
@@ -694,47 +737,85 @@ TEST 2
   </footer>
 
   <!-- ============================================================
-       LIGHTBOX — one shared viewer for every project's gallery.
-       No need to duplicate this; the script below wires it up to
-       every .entry__media block on the page automatically.
+       POPUP — one shared photo viewer + description panel for
+       every project. No need to duplicate this; the script below
+       wires it up to every .entry__media block automatically.
        ============================================================ -->
   <div id="lightbox" class="lightbox" hidden>
-    <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
-    <button class="lightbox__prev" type="button" aria-label="Previous photo">&#8249;</button>
-    <div class="lightbox__stage"></div>
-    <button class="lightbox__next" type="button" aria-label="Next photo">&#8250;</button>
-    <div class="lightbox__counter"></div>
+    <div class="lightbox__panel">
+      <div class="lightbox__stage">
+        <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
+        <button class="lightbox__prev" type="button" aria-label="Previous photo">&#8249;</button>
+        <div class="lightbox__stage-media"></div>
+        <button class="lightbox__next" type="button" aria-label="Next photo">&#8250;</button>
+        <div class="lightbox__counter"></div>
+      </div>
+      <div class="lightbox__caption">
+        <div class="lightbox__caption-title"></div>
+        <div class="lightbox__caption-meta"></div>
+        <ul class="lightbox__bullets"></ul>
+      </div>
+    </div>
   </div>
 
   <script>
   (function(){
     var lightbox = document.getElementById('lightbox');
-    var stage = lightbox.querySelector('.lightbox__stage');
+    var stageMedia = lightbox.querySelector('.lightbox__stage-media');
     var counter = lightbox.querySelector('.lightbox__counter');
     var closeBtn = lightbox.querySelector('.lightbox__close');
     var prevBtn = lightbox.querySelector('.lightbox__prev');
     var nextBtn = lightbox.querySelector('.lightbox__next');
+    var captionTitle = lightbox.querySelector('.lightbox__caption-title');
+    var captionMeta = lightbox.querySelector('.lightbox__caption-meta');
+    var captionBullets = lightbox.querySelector('.lightbox__bullets');
 
     var photos = [];
     var index = 0;
 
-    function render(){
-      stage.innerHTML = '';
+    function renderPhoto(){
+      stageMedia.innerHTML = '';
       var node = photos[index].cloneNode(true);
       node.removeAttribute('tabindex');
-      // autoplay/controls behave oddly when cloned mid-play; reset video state
-      if (node.tagName === 'VIDEO') { node.pause(); node.currentTime = 0; }
-      stage.appendChild(node);
+      if (node.tagName === 'VIDEO') {
+        node.controls = true;
+        node.muted = false;
+        node.removeAttribute('muted');
+        node.currentTime = 0;
+      }
+      stageMedia.appendChild(node);
+      if (node.tagName === 'VIDEO') {
+        var playPromise = node.play();
+        if (playPromise && playPromise.catch) playPromise.catch(function(){});
+      }
       counter.textContent = (index + 1) + ' / ' + photos.length;
       prevBtn.style.display = photos.length > 1 ? '' : 'none';
       nextBtn.style.display = photos.length > 1 ? '' : 'none';
     }
 
-    function open(mediaEl, startIndex){
+    function renderCaption(entryEl){
+      var titleEl = entryEl.querySelector('.entry__title');
+      var roleEl = entryEl.querySelector('.entry__role');
+      var toolsEl = entryEl.querySelector('.entry__tools');
+      var bulletsEl = entryEl.querySelector('.entry__bullets');
+
+      captionTitle.textContent = titleEl ? titleEl.textContent : '';
+
+      var metaParts = [];
+      if (roleEl) metaParts.push(roleEl.textContent);
+      if (toolsEl) metaParts.push(toolsEl.textContent);
+      captionMeta.textContent = metaParts.join(' · ');
+
+      captionBullets.innerHTML = bulletsEl ? bulletsEl.innerHTML : '';
+    }
+
+    function open(mediaEl){
+      var entryEl = mediaEl.closest('.entry');
       photos = Array.prototype.slice.call(mediaEl.querySelectorAll('.photo'));
       if (!photos.length) return;
-      index = startIndex || 0;
-      render();
+      index = 0;
+      renderPhoto();
+      if (entryEl) renderCaption(entryEl);
       lightbox.hidden = false;
       document.body.style.overflow = 'hidden';
     }
@@ -742,25 +823,23 @@ TEST 2
     function close(){
       lightbox.hidden = true;
       document.body.style.overflow = '';
-      stage.innerHTML = '';
+      stageMedia.innerHTML = '';
     }
 
-    function next(){ index = (index + 1) % photos.length; render(); }
-    function prev(){ index = (index - 1 + photos.length) % photos.length; render(); }
+    function next(){ index = (index + 1) % photos.length; renderPhoto(); }
+    function prev(){ index = (index - 1 + photos.length) % photos.length; renderPhoto(); }
 
-    // Wire up every project's media block, and label the hint badge
-    // with how many photos it holds.
     document.querySelectorAll('.entry__media').forEach(function(mediaEl){
       var count = mediaEl.querySelectorAll('.photo').length;
       var hint = mediaEl.querySelector('.entry__media__hint');
       if (hint){
         hint.textContent = count > 1 ? ('View ' + count + ' photos') : 'View photo';
       }
-      mediaEl.addEventListener('click', function(){ open(mediaEl, 0); });
+      mediaEl.addEventListener('click', function(){ open(mediaEl); });
       mediaEl.addEventListener('keydown', function(e){
         if (e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
-          open(mediaEl, 0);
+          open(mediaEl);
         }
       });
     });
