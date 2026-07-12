@@ -225,6 +225,19 @@
     white-space:nowrap;
   }
 
+  .entry__badge{
+    display:inline-block;
+    margin-left:10px;
+    font-size:11px;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.05em;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    border-radius:3px;
+    padding:2px 8px;
+    vertical-align:middle;
+  }
+
   .entry__row--sub{margin-top:2px;}
   .entry__role,
   .entry__tools{
@@ -529,7 +542,7 @@
       <!-- Project 1: Formula SAE Rear Wing -->
       <article class="entry" id="project-1">
         <div class="entry__row">
-          <span class="entry__title">Formula SAE Rear Wing</span>
+          <span class="entry__title">Formula SAE Rear Wing<span class="entry__badge">In Progress</span></span>
           <span class="entry__meta">Carnegie Mellon Racing</span>
         </div>
         <div class="entry__row entry__row--sub">
@@ -554,9 +567,12 @@
         <!-- Description — never shown inline, only read into the popup -->
         <div class="entry__details">
           <ul class="entry__bullets">
-            <li>Designing an adjustable rear wing system in SolidWorks, prioritizing variable element configurations for rapid tuning between dynamic events.</li>
-            <li>Built a parameterized CFD pipeline, cutting setup time per design iteration and enabling hundreds of aerodynamic configurations to be evaluated through geometric sweeps.</li>
-            <li>Optimizing structural integrity with FEA in Ansys Mechanical, minimizing mass while holding to structural targets.</li>
+            <li>Designed an adjustable Rear Wing system in SolidWorks for variable element configurations.</li>
+            <li>Developed parameterized CFD models to automate the analysis pipeline and reduce setup time.</li>
+            <li>Evaluated hundreds of configurations in CFD using geometric sweeps to find optimal designs.</li>
+            <li>Optimized structural integrity using Ansys Mechanical, minimizing mass while meeting structural goals.</li>
+            <li>Fabricated lightweight aerodynamic elements utilizing carbon fiber composite manufacturing techniques.</li>
+            <li>Programmed CAM toolpaths and operated CNC machines to manufacture foam molds for carbon fiber layups.</li>
           </ul>
         </div>
       </article>
@@ -588,9 +604,9 @@
 
         <div class="entry__details">
           <ul class="entry__bullets">
-            <li>Designed the active aerodynamics element for the Formula Student Electric race car using SolidWorks and Ansys Fluent, achieving up to a 45% reduction in drag between open and closed positions.</li>
-            <li>Validated system actuation and performance by developing free body diagrams and mathematical models in MATLAB, confirming the mechanism met all targeted kinematic goals.</li>
-            <li>Optimized structural integrity using Ansys Mechanical, reducing overall mechanism mass by more than 75% versus the previous year's design while maintaining structural performance.</li>
+            <li>Designed the active aerodynamics element for Formula Student Electric race car utilizing SolidWorks and Ansys Fluent, achieving up to a 45% reduction in drag between open and closed positions.</li>
+            <li>Validated system actuation by creating FBDs and using MATLAB to confirm performance goals.</li>
+            <li>Optimized system structural performance using Ansys Mechanical, reducing mass by 75% over previous year.</li>
           </ul>
         </div>
       </article>
@@ -626,9 +642,10 @@
 
         <div class="entry__details">
           <ul class="entry__bullets">
-            <li>Developed an interactive graphical app for parametric cycloidal drive generation, computing exact coordinate matrices and validating user-defined parameters to prevent invalid gear geometry while enabling rapid visual feedback.</li>
-            <li>Automated 3D modeling of gear components by integrating with the SolidWorks API, eliminating manual CAD drafting time.</li>
-            <li>Automated a manufacturing pipeline by scripting the extraction from SolidWorks, generating 3D printable files.</li>
+            <li>Developed an interactive app for designing cycloidal drives, allowing users to define certain parameters.</li>
+            <li>Prevented invalid gear geometry by implementing parameter-checking algorithms.</li>
+            <li>Automated the 3D modeling of gear components using the SolidWorks API, eliminating CAD modeling time.</li>
+            <li>Automated a manufacturing pipeline by scripting the export from SolidWorks, creating 3D printable files.</li>
           </ul>
         </div>
       </article>
@@ -661,8 +678,7 @@
 
         <div class="entry__details">
           <ul class="entry__bullets">
-            <li>Developed a compact 2 degree-of-freedom module for the EigenBot system, optimizing motor packaging and material selection in Fusion 360.</li>
-            <li>Reduced the overall module form factor by 20 percent through iterative design refinement.</li>
+            <li>Developed a compact 2DoF module for the EigenBot system by optimizing motor packaging and material selections using Fusion 360, reducing the overall module form factor by 20 percent.</li>
           </ul>
         </div>
       </article>
@@ -695,8 +711,7 @@
 
         <div class="entry__details">
           <ul class="entry__bullets">
-            <li>Developed a force-sensing gripper and foot module for the EigenBot modular robot system, engineering a compressible structure with an internal magnet driven by FEA results from Ansys Mechanical.</li>
-            <li>Established novel force feedback capabilities to optimize locomotion and grasping.</li>
+            <li>Developed a Hall-Effect force-sensing gripper and foot module for the EigenBot modular robot system, driven by FEA results from Ansys Mechanical.</li>
           </ul>
         </div>
       </article>
