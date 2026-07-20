@@ -147,7 +147,13 @@
   .nav__links a{color:var(--gray);}
   .nav__links a:hover{color:var(--ink);border-bottom:1px solid var(--ink);}
   @media (max-width:600px){
+    .nav__inner{padding:0 20px;}
     .nav__links{gap:16px;font-size:11px;}
+  }
+  @media (max-width:400px){
+    .nav__inner{padding:0 14px;height:56px;}
+    .nav__mark{font-size:14px;}
+    .nav__links{gap:10px;font-size:9.5px;}
   }
 
   /* ============================================================
@@ -183,6 +189,12 @@
   }
   .header-block__role strong{font-style:normal;font-weight:700;}
 
+  @media (max-width:600px){
+    .header-block{padding:44px 20px 36px;}
+    .header-block__contact{font-size:13px;line-height:1.8;}
+    .header-block__dot{margin:0 6px;}
+  }
+
   /* ============================================================
      SECTION HEADER — small caps + rule
      ============================================================ */
@@ -200,6 +212,11 @@
     padding-bottom:6px;
     border-bottom:1.4px solid var(--rule);
     margin-bottom:28px;
+  }
+
+  @media (max-width:600px){
+    section{padding:8px 20px 0;}
+    .section-inner{padding:36px 0 44px;}
   }
 
   /* ============================================================
@@ -246,6 +263,15 @@
     color:var(--gray);
   }
 
+  @media (max-width:600px){
+    .entry{margin-bottom:32px;}
+    .entry__row{gap:8px 14px;}
+    .entry__title{font-size:16px;}
+    .entry__meta{font-size:13px;white-space:normal;}
+    .entry__role,
+    .entry__tools{font-size:13.5px;}
+  }
+
   /* Bullets are never shown on the page itself — only read by the
      script and rendered inside the photo popup. Keep writing them
      here as usual. */
@@ -272,6 +298,13 @@
 
   /* Smaller cover for the EigenBot entries — 1/3 the normal width */
   .entry__media--small{max-width:33%;margin-left:auto;margin-right:auto;}
+
+  @media (max-width:600px){
+    .entry__media--small{max-width:60%;}
+  }
+  @media (max-width:420px){
+    .entry__media--small{max-width:75%;}
+  }
 
   /* Hide the "View N photos" badge on specific entries */
   .entry__media--no-hint .entry__media__hint{display:none;}
@@ -347,13 +380,58 @@
   .lightbox__panel{
     background:var(--white);
     width:100%;
-    max-width:720px;
+    max-width:1240px;
     max-height:90vh;
     overflow:hidden;
     display:flex;
-    flex-direction:column;
+    flex-direction:row;
     position:relative;
     border:1px solid var(--gray-light);
+  }
+
+  /* Left column — project overview, stays constant across every photo */
+  .lightbox__overview{
+    width:480px;
+    flex-shrink:0;
+    padding:26px 22px;
+    overflow-y:auto;
+    border-right:1px solid var(--gray-light);
+  }
+  .lightbox__caption-title{
+    font-size:18px;
+    font-weight:700;
+  }
+  .lightbox__caption-meta{
+    font-size:13.5px;
+    font-style:italic;
+    color:var(--gray);
+    margin-top:3px;
+    margin-bottom:14px;
+  }
+  .lightbox__bullets{padding-left:18px;}
+  .lightbox__bullets li{
+    margin-bottom:6px;
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  .lightbox__section-label{
+    font-size:11.5px;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.06em;
+    color:var(--gray);
+    margin-top:18px;
+    margin-bottom:8px;
+  }
+  .lightbox__section-label:first-child{margin-top:0;}
+
+  /* Right column — image stage on top, per-photo caption below it */
+  .lightbox__viewer{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto;
   }
 
   .lightbox__stage{
@@ -385,26 +463,54 @@
     color:#999;
   }
 
-  .lightbox__caption{
-    padding:22px 26px 26px;
-    overflow-y:auto;
+  .lightbox__photo-caption-wrap{
+    padding:16px 24px 22px;
   }
-  .lightbox__caption-title{
-    font-size:18px;
-    font-weight:700;
-  }
-  .lightbox__caption-meta{
-    font-size:13.5px;
-    font-style:italic;
-    color:var(--gray);
-    margin-top:3px;
-    margin-bottom:14px;
-  }
-  .lightbox__bullets{padding-left:18px;}
-  .lightbox__bullets li{
-    margin-bottom:6px;
-    font-size:15px;
+  .lightbox__photo-caption{
+    font-size:14.5px;
     line-height:1.6;
+    color:var(--ink);
+    font-style:italic;
+  }
+
+  @media (max-width:700px){
+    .lightbox{padding:0;}
+    .lightbox__panel{
+      flex-direction:column;
+      max-width:100%;
+      width:100%;
+      height:100%;
+      max-height:100%;
+      overflow-y:auto;
+      border:none;
+    }
+    .lightbox__overview{
+      width:100%;
+      max-height:none;
+      padding:20px 18px;
+      border-right:none;
+      border-bottom:1px solid var(--gray-light);
+      overflow-y:visible;
+    }
+    .lightbox__viewer{
+      overflow-y:visible;
+    }
+    .lightbox__stage-media{max-height:40vh;}
+    .lightbox__stage-media img,
+    .lightbox__stage-media video{max-height:40vh;}
+    .lightbox__photo-caption-wrap{padding:14px 18px 20px;}
+    .lightbox__close{
+      position:fixed;
+      top:10px;right:10px;
+      width:40px;height:40px;
+      font-size:22px;
+      z-index:10;
+    }
+    .lightbox__prev,
+    .lightbox__next{
+      width:46px;height:52px;
+      font-size:28px;
+    }
   }
 
   .lightbox__close{
@@ -554,12 +660,16 @@
           Click-to-expand photo + description popup. The first .photo
           below is the visible cover image; the rest stay hidden until
           clicked, same as the description text underneath.
+
+          Each .photo below has a data-caption attribute — placeholder
+          text describing what that specific image shows and the
+          engineering decision behind it. Edit these directly.
         -->
         <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE Rear Wing">
 
-          <img class="photo" src="RWG_Cover.png" alt="Formula SAE rear wing on the car">
-          <img class="photo" src="RWG_2d_cfd.png" alt="Rear wing 2D CFD pressure contour">
-          <img class="photo" src="RWG_Airfoils.png" alt="Rear wing airfoil profiles">
+          <img class="photo" src="RWG_Cover.png" alt="Formula SAE rear wing on the car" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="RWG_2d_cfd.png" alt="Rear wing 2D CFD pressure contour" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="RWG_Airfoils.png" alt="Rear wing airfoil profiles" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
 
           <span class="entry__media__hint"></span>
         </div>
@@ -590,14 +700,19 @@
           <span class="entry__tools">SolidWorks · Ansys Mechanical · MATLAB</span>
         </div>
 
+        <!--
+          Each .photo below has a data-caption attribute — placeholder
+          text describing what that specific image shows and the
+          engineering decision behind it. Edit these directly.
+        -->
         <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE DRS">
 
-          <img class="photo" src="DRS_Cover_Photo.png" alt="Formula SAE drag reduction system mechanism">
-          <img class="photo" src="DRS_Sketch.png" alt="DRS concept sketch">
-          <img class="photo" src="DRS_FoS_Graph.png" alt="DRS factor of safety graph">
-          <img class="photo" src="DRS_Setup_1.png" alt="DRS test setup">
-          <img class="photo" src="DRS_Results_1.png" alt="DRS results plot 1">
-          <img class="photo" src="DRS_Results_2.png" alt="DRS results plot 2">
+          <img class="photo" src="DRS_Cover_Photo.png" alt="Formula SAE drag reduction system mechanism" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="DRS_Sketch.png" alt="DRS concept sketch" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="DRS_FoS_Graph.png" alt="DRS factor of safety graph" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="DRS_Setup_1.png" alt="DRS test setup" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="DRS_Results_1.png" alt="DRS results plot 1" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="DRS_Results_2.png" alt="DRS results plot 2" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
 
           <span class="entry__media__hint"></span>
         </div>
@@ -758,17 +873,26 @@
        ============================================================ -->
   <div id="lightbox" class="lightbox" hidden>
     <div class="lightbox__panel">
-      <div class="lightbox__stage">
-        <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
-        <button class="lightbox__prev" type="button" aria-label="Previous photo">&#8249;</button>
-        <div class="lightbox__stage-media"></div>
-        <button class="lightbox__next" type="button" aria-label="Next photo">&#8250;</button>
-        <div class="lightbox__counter"></div>
-      </div>
-      <div class="lightbox__caption">
+      <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
+
+      <div class="lightbox__overview">
         <div class="lightbox__caption-title"></div>
         <div class="lightbox__caption-meta"></div>
+        <div class="lightbox__section-label">Overview</div>
         <ul class="lightbox__bullets"></ul>
+      </div>
+
+      <div class="lightbox__viewer">
+        <div class="lightbox__stage">
+          <button class="lightbox__prev" type="button" aria-label="Previous photo">&#8249;</button>
+          <div class="lightbox__stage-media"></div>
+          <button class="lightbox__next" type="button" aria-label="Next photo">&#8250;</button>
+          <div class="lightbox__counter"></div>
+        </div>
+        <div class="lightbox__photo-caption-wrap">
+          <div class="lightbox__section-label lightbox__photo-caption-label" hidden>This photo</div>
+          <div class="lightbox__photo-caption"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -784,6 +908,8 @@
     var captionTitle = lightbox.querySelector('.lightbox__caption-title');
     var captionMeta = lightbox.querySelector('.lightbox__caption-meta');
     var captionBullets = lightbox.querySelector('.lightbox__bullets');
+    var photoCaptionLabel = lightbox.querySelector('.lightbox__photo-caption-label');
+    var photoCaptionEl = lightbox.querySelector('.lightbox__photo-caption');
 
     var photos = [];
     var index = 0;
@@ -806,6 +932,18 @@
       counter.textContent = (index + 1) + ' / ' + photos.length;
       prevBtn.style.display = photos.length > 1 ? '' : 'none';
       nextBtn.style.display = photos.length > 1 ? '' : 'none';
+
+      // Per-photo caption, if this photo has a data-caption attribute.
+      var caption = photos[index].getAttribute('data-caption');
+      if (caption){
+        photoCaptionEl.textContent = caption;
+        photoCaptionEl.style.display = '';
+        photoCaptionLabel.hidden = false;
+      } else {
+        photoCaptionEl.textContent = '';
+        photoCaptionEl.style.display = 'none';
+        photoCaptionLabel.hidden = true;
+      }
     }
 
     function renderCaption(entryEl){
