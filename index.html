@@ -408,12 +408,29 @@
     margin-top:3px;
     margin-bottom:14px;
   }
-  .lightbox__bullets{padding-left:18px;}
+  /* Overview content — supports both a simple flat list (most
+     projects) and richer nested content with sub-headers and
+     nested lists (e.g. Rear Wing). Styled generically so either
+     structure renders correctly. */
+  .lightbox__bullets p{
+    font-size:13px;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.05em;
+    font-weight:700;
+    color:var(--gray);
+    margin-top:16px;
+    margin-bottom:6px;
+  }
+  .lightbox__bullets > p:first-child,
+  .lightbox__bullets ul:first-child{margin-top:0;}
+  .lightbox__bullets ul{padding-left:18px;}
+  .lightbox__bullets ul ul{margin-top:4px;margin-bottom:4px;}
   .lightbox__bullets li{
     margin-bottom:6px;
-    font-size:15px;
+    font-size:14.5px;
     line-height:1.6;
   }
+  .lightbox__bullets em{font-style:italic;color:var(--ink);}
 
   .lightbox__section-label{
     font-size:11.5px;
@@ -674,16 +691,54 @@
           <span class="entry__media__hint"></span>
         </div>
 
-        <!-- Description — never shown inline, only read into the popup -->
+        <!-- Description — never shown inline, only read into the popup.
+             This entry uses the richer nested format (sub-headers +
+             nested lists) instead of a flat bullet list. -->
         <div class="entry__details">
-          <ul class="entry__bullets">
-            <li>Designed an adjustable Rear Wing system in SolidWorks for variable element configurations.</li>
-            <li>Developed parameterized CFD models to automate the analysis pipeline and reduce setup time.</li>
-            <li>Evaluated hundreds of configurations in CFD using geometric sweeps to find optimal designs.</li>
-            <li>Optimized structural integrity using Ansys Mechanical, minimizing mass while meeting structural goals.</li>
-            <li>Fabricated lightweight aerodynamic elements utilizing carbon fiber composite manufacturing techniques.</li>
-            <li>Programmed CAM toolpaths and operated CNC machines to manufacture foam molds for carbon fiber layups.</li>
-          </ul>
+          <div class="entry__bullets">
+
+            <p><strong>Choosing an airfoil</strong></p>
+            <ul>
+              <li>The rear wing is the limiting factor for downforce on an FSAE car — the front wing interacts with clean free-stream air and can generate more lift, while the rear wing works in dirty air.</li>
+              <li>Airfoil selection therefore prioritizes lift over aerodynamic efficiency (lift/drag), so the rear wing does not limit the front wing's performance.</li>
+            </ul>
+
+            <p><strong>Theory</strong></p>
+            <ul>
+              <li>Popular "high-downforce" airfoils (MSHD, S1223) use large camber and produce strong lift as standalone sections, but perform poorly in a multi-element chain.</li>
+              <li>Large camber creates a strong adverse pressure gradient on the suction side. When free-stream air re-enters the multi-element chain, it hits a boundary layer already fighting that gradient, causing sharp pressure spikes.</li>
+              <li>Given realistic manufacturing tolerances, these pressure spikes make the wing unstable.</li>
+              <li>Lower-camber airfoils in the multi-element array avoid this problem: this year's array uses NACA 8420 and NACA 7412.</li>
+              <li>A multi-element array works by generating effective camber through element interaction, not through individual airfoil camber — so using lower-camber sections avoids the adverse pressure gradient and spikes.</li>
+            </ul>
+
+            <p><strong>Selection process</strong></p>
+            <ul>
+              <li>Started with a 3-element NACA 4420–4412–4412 chain.</li>
+              <li>Increased main-element camber until flow separation occurred at NACA 9420; selected NACA 8420 as the conservative choice one step below.</li>
+              <li>Repeated the process for the flaps: separation occurred at NACA 8412, so NACA 7412 was selected.</li>
+            </ul>
+
+            <p><strong>Other array parameters</strong></p>
+            <ul>
+              <li><em>Element count (3 vs. 4):</em> compared directly — added a 4th element only if the CL gain justified the mass increase.</li>
+              <li><em>AoA per element:</em> increased until flow separation occurred.</li>
+            </ul>
+
+            <p><strong>Adjustability</strong></p>
+            <ul>
+              <li>The rear wing must switch between low-drag and high-downforce configurations.</li>
+              <li>Achieved by rotating each element (except the main element) about an axis to change AoA (detailed in the DRS project).</li>
+              <li>Low-drag configuration is used for events like acceleration; high-downforce for events like skidpad.</li>
+            </ul>
+
+            <p><strong>Other parameters tested in CFD</strong></p>
+            <ul>
+              <li><em>Swan-neck mounting:</em> keeps the suction side of the airfoil completely clean, significantly increasing lift. Trade-off: less structurally sound than conventional mounting rods.</li>
+              <li><em>Main element is not a straight 2D extrusion:</em> airflow quality varies across its span. Directly behind the driver's head, the air is dirty and separates easily. Solution: more aggressive AoA toward the outboard sections, tapering to near-zero AoA at the center.</li>
+            </ul>
+
+          </div>
         </div>
       </article>
 
@@ -717,12 +772,56 @@
           <span class="entry__media__hint"></span>
         </div>
 
+        <!-- Description — never shown inline, only read into the popup.
+             This entry uses the richer nested format (sub-headers +
+             nested lists) instead of a flat bullet list. -->
         <div class="entry__details">
-          <ul class="entry__bullets">
-            <li>Designed the active aerodynamics element for Formula Student Electric race car utilizing SolidWorks and Ansys Fluent, achieving up to a 45% reduction in drag between open and closed positions.</li>
-            <li>Validated system actuation by creating FBDs and using MATLAB to confirm performance goals.</li>
-            <li>Optimized system structural performance using Ansys Mechanical, reducing mass by 75% over previous year.</li>
-          </ul>
+          <div class="entry__bullets">
+
+            <p><strong>Goal</strong></p>
+            <ul>
+              <li>Electronically control high- and low-drag configurations of the rear wing.</li>
+              <li>High-drag/high-downforce configuration holds the rear wing elements at their native AoA, typically 30–60°.</li>
+              <li>Low-drag/low-downforce configuration rotates all elements to 0° AoA.</li>
+            </ul>
+
+            <p><strong>Design challenges</strong></p>
+            <ul>
+              <li>The system requires redundancy.</li>
+              <li>Servos are weak relative to the aerodynamic loads they must overcome.</li>
+              <li>Mass must be minimized across the servo, housing, and linkages.</li>
+              <li>Servo-generated internal moments risk transferring load onto the wing's carbon skin, which would fracture it.</li>
+            </ul>
+
+            <p><strong>Redundancy</strong></p>
+            <ul>
+              <li>Every element except the main element rotates on a rod running through it.</li>
+              <li>If the servo loses power or a linkage fails, the system must fail closed — reverting to the high-downforce configuration.</li>
+              <li>Achieved by placing the rotation axis behind the airfoil's center of pressure, so aerodynamic force alone drives the element closed.</li>
+              <li>Center of pressure is determined via 2D CFD analysis on each airfoil.</li>
+            </ul>
+
+            <p><strong>Weak servo</strong></p>
+            <ul>
+              <li>A low-mass, low-torque servo was selected to actuate the elements.</li>
+              <li>Torque output is increased via a four-bar linkage mechanism, trading angular displacement for mechanical advantage.</li>
+              <li>Optimal linkage geometry was chosen through four-bar linkage synthesis, maximizing mechanical advantage across the full angular displacement range.</li>
+              <li>Generated torque was plotted against resistive aerodynamic torque to confirm the servo could actuate the elements at every point in the range.</li>
+            </ul>
+
+            <p><strong>Minimizing mass</strong></p>
+            <ul>
+              <li>Started with a simple 2D extrusion of the linkage and ran FEA to identify stress concentrations.</li>
+              <li>Removed material from low-stress regions to reduce mass.</li>
+            </ul>
+
+            <p><strong>Large internal loads</strong></p>
+            <ul>
+              <li>Despite being weak relative to aerodynamic forces, the servo generates enough force to damage the carbon skin if mounted directly against it.</li>
+              <li>Designed a servo housing that redirects all load into the carbon/honeycomb sandwich structure, which is significantly stronger than the skin alone.</li>
+            </ul>
+
+          </div>
         </div>
       </article>
 
@@ -879,7 +978,7 @@
         <div class="lightbox__caption-title"></div>
         <div class="lightbox__caption-meta"></div>
         <div class="lightbox__section-label">Overview</div>
-        <ul class="lightbox__bullets"></ul>
+        <div class="lightbox__bullets"></div>
       </div>
 
       <div class="lightbox__viewer">
@@ -959,7 +1058,10 @@
       if (toolsEl) metaParts.push(toolsEl.textContent);
       captionMeta.textContent = metaParts.join(' · ');
 
-      captionBullets.innerHTML = bulletsEl ? bulletsEl.innerHTML : '';
+      captionBullets.innerHTML = '';
+      if (bulletsEl){
+        captionBullets.appendChild(bulletsEl.cloneNode(true));
+      }
     }
 
     function open(mediaEl){
