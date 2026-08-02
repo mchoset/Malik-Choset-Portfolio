@@ -188,6 +188,14 @@
     margin-right:auto;
   }
   .header-block__role strong{font-style:normal;font-weight:700;}
+  .header-block__gpa{
+    margin-top:8px;
+    font-size:20px;
+    font-style:normal;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.08em;
+    color:var(--gray);
+  }
 
   @media (max-width:600px){
     .header-block{padding:44px 20px 36px;}
@@ -490,6 +498,44 @@
     font-style:italic;
   }
 
+  /* Wide-overview layout (Rear Wing, DRS) — desktop only. The
+     description has a lot of content and the photo otherwise
+     leaves empty space below it, so on wider screens the columns
+     swap: photo moves to a narrower fixed-width column on the
+     left, description becomes the wide, flexible column on the
+     right. Images are enlarged 1.5x and the description text is
+     scaled down to fit more comfortably. */
+  @media (min-width:701px){
+    .lightbox__panel--wide-overview{
+      max-width:1560px;
+    }
+    .lightbox__panel--wide-overview .lightbox__viewer{
+      order:1;
+      flex:0 0 630px;
+    }
+    .lightbox__panel--wide-overview .lightbox__stage-media{
+      max-height:78vh;
+    }
+    .lightbox__panel--wide-overview .lightbox__stage-media img,
+    .lightbox__panel--wide-overview .lightbox__stage-media video{
+      max-height:78vh;
+    }
+    .lightbox__panel--wide-overview .lightbox__overview{
+      order:2;
+      width:auto;
+      flex:1;
+      border-right:none;
+      border-left:1px solid var(--gray-light);
+    }
+    .lightbox__panel--wide-overview .lightbox__bullets p{
+      font-size:12px;
+    }
+    .lightbox__panel--wide-overview .lightbox__bullets li{
+      font-size:13px;
+      line-height:1.5;
+    }
+  }
+
   @media (max-width:700px){
     .lightbox{padding:0;}
     .lightbox__panel{
@@ -646,8 +692,9 @@
       </div>
       <!-- EDIT ME: degree / college / GPA — each wrapped in <strong> so it stays bold -->
       <p class="header-block__role">
-        <strong>Mechanical Engineering</strong> @ <strong>Carnegie Mellon University</strong> &middot; <strong>4.00 GPA</strong>
+        <strong>Mechanical Engineering</strong> @ <strong>Carnegie Mellon University</strong>
       </p>
+      <p class="header-block__gpa">4.00 GPA</p>
     </div>
   </section>
 
@@ -666,7 +713,7 @@
            ========================================================== -->
 
       <!-- Project 1: Formula SAE Rear Wing -->
-      <article class="entry" id="project-1">
+      <article class="entry entry--wide-overview" id="project-1">
         <div class="entry__row">
           <span class="entry__title">Formula SAE Rear Wing<span class="entry__badge">In Progress</span></span>
           <span class="entry__meta">Carnegie Mellon Racing</span>
@@ -687,9 +734,9 @@
         -->
         <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE Rear Wing">
 
-          <img class="photo" src="RWG_Cover.png" alt="Formula SAE rear wing on the car" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
-          <img class="photo" src="RWG_2d_cfd.png" alt="Rear wing 2D CFD pressure contour" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
-          <img class="photo" src="RWG_Airfoils.png" alt="Rear wing airfoil profiles" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="RWG_Cover.png" alt="Formula SAE rear wing on the car" data-caption="Photo of the current 2027 rear wing.">
+          <img class="photo" src="RWG_2d_cfd.png" alt="Rear wing 2D CFD pressure contour" data-caption="2D CFD simulation on the rear wing used to determine airfoil profiles.">
+          <img class="photo" src="RWG_Airfoils.png" alt="Rear wing airfoil profiles" data-caption="Panel solver used to analyze many airfoils' standalone performance and narrow the selection process.">
 
           <span class="entry__media__hint"></span>
         </div>
@@ -748,7 +795,7 @@
       <hr class="divider">
 
       <!-- Project 2: Formula SAE DRS -->
-      <article class="entry" id="project-2">
+      <article class="entry entry--wide-overview" id="project-2">
         <div class="entry__row">
           <span class="entry__title">Formula SAE DRS</span>
           <span class="entry__meta">Carnegie Mellon Racing</span>
@@ -765,12 +812,12 @@
         -->
         <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE DRS">
 
-          <img class="photo" src="DRS_Cover_Photo.png" alt="Formula SAE drag reduction system mechanism" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
-          <img class="photo" src="DRS_Sketch.png" alt="DRS concept sketch" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
-          <img class="photo" src="DRS_FoS_Graph.png" alt="DRS factor of safety graph" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
-          <img class="photo" src="DRS_Setup_1.png" alt="DRS test setup" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
-          <img class="photo" src="DRS_Results_1.png" alt="DRS results plot 1" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
-          <img class="photo" src="DRS_Results_2.png" alt="DRS results plot 2" data-caption="[PLACEHOLDER — describe what this image shows and the engineering decision behind it]">
+          <img class="photo" src="DRS_Cover_Photo.png" alt="Formula SAE drag reduction system mechanism" data-caption="CAD of the DRS housing, servo, linkage, and rear wing element rib.">
+          <img class="photo" src="DRS_Sketch.png" alt="DRS concept sketch" data-caption="Four-bar linkage sketch.">
+          <img class="photo" src="DRS_FoS_Graph.png" alt="DRS factor of safety graph" data-caption="Plot of linkage factor of safety (output torque from the four-bar linkage divided by aerodynamic moment).">
+          <img class="photo" src="DRS_Setup_1.png" alt="DRS test setup" data-caption="FEA setup used to determine the load path through the servo housing.">
+          <img class="photo" src="DRS_Results_1.png" alt="DRS results plot 1" data-caption="FEA results for the servo housing.">
+          <img class="photo" src="DRS_Results_2.png" alt="DRS results plot 2" data-caption="FEA results for the servo housing.">
 
           <span class="entry__media__hint"></span>
         </div>
@@ -784,8 +831,8 @@
             <p><strong>Goal</strong></p>
             <ul>
               <li>Electronically control high- and low-drag configurations of the rear wing.</li>
-              <li>High-drag/high-downforce configuration holds the rear wing elements at their native AoA, typically 30–60°.</li>
-              <li>Low-drag/low-downforce configuration rotates all elements to 0° AoA.</li>
+              <li>High-drag/high-downforce configuration holds the rear wing element at 30° AoA.</li>
+              <li>Low-drag/low-downforce configuration rotates all element to 0° AoA.</li>
             </ul>
 
             <p><strong>Design challenges</strong></p>
@@ -806,10 +853,10 @@
 
             <p><strong>Weak servo</strong></p>
             <ul>
-              <li>A low-mass, low-torque servo was selected to actuate the elements.</li>
+              <li>A low-mass, low-torque servo was selected to actuate the element.</li>
               <li>Torque output is increased via a four-bar linkage mechanism, trading angular displacement for mechanical advantage.</li>
               <li>Optimal linkage geometry was chosen through four-bar linkage synthesis, maximizing mechanical advantage across the full angular displacement range.</li>
-              <li>Generated torque was plotted against resistive aerodynamic torque to confirm the servo could actuate the elements at every point in the range.</li>
+              <li>Generated torque was plotted against resistive aerodynamic torque to confirm the servo could actuate the element at every point in the range.</li>
             </ul>
 
             <p><strong>Minimizing mass</strong></p>
@@ -1002,6 +1049,7 @@
   <script>
   (function(){
     var lightbox = document.getElementById('lightbox');
+    var panel = lightbox.querySelector('.lightbox__panel');
     var stageMedia = lightbox.querySelector('.lightbox__stage-media');
     var counter = lightbox.querySelector('.lightbox__counter');
     var closeBtn = lightbox.querySelector('.lightbox__close');
@@ -1074,6 +1122,7 @@
       index = 0;
       renderPhoto();
       if (entryEl) renderCaption(entryEl);
+      panel.classList.toggle('lightbox__panel--wide-overview', !!(entryEl && entryEl.classList.contains('entry--wide-overview')));
       lightbox.hidden = false;
       document.body.style.overflow = 'hidden';
     }
