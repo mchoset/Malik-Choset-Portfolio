@@ -45,13 +45,30 @@
      cover photo. You don't need to do anything extra; just keep
      writing your bullets inside the existing <ul class="entry__bullets">.
 
-  3. ADDING ANOTHER PROJECT
+  3. DESIGN REVIEW SLIDESHOWS (e.g. PPDR/PDR/CDR decks)
+     A project's cover photo can carry a badge/button overlaid on
+     top of it that opens a fullscreen slideshow of a PDF deck —
+     no download, and no need to export slide images. Just
+     reference the PDF file directly; it's rendered in the browser
+     (via PDF.js) when clicked.
+
+     Inside the project's <entry__media> block, look for the
+     comment "DESIGN REVIEW DECKS" — it's a <button class="deck-link">
+     with two data attributes:
+         data-pdf="your-file.pdf"   <- path to the PDF
+         data-deck-title="..."      <- title shown above the slide
+     To add another deck badge on the same cover photo, copy the
+     whole <button class="deck-link"> block (inside the same
+     .entry__media-decks wrapper), point data-pdf at the new PDF,
+     and update the label/date/title text.
+
+  4. ADDING ANOTHER PROJECT
      Find the comment "PROJECT ENTRY TEMPLATE" inside the Work
      section, copy the whole <article class="entry" id="project-X">
      block, paste it after the last project, and give it a new id.
      The popup wires itself up automatically — no extra JS needed.
 
-  4. COLORS / FONTS
+  5. COLORS / FONTS
      All colors and fonts are defined once at the top of the <style>
      block under :root. Change them there and the whole page updates.
 ====================================================================
@@ -626,6 +643,161 @@
   }
 
   /* ============================================================
+     DESIGN REVIEW DECKS — a badge overlaid on a project's cover
+     photo that opens a fullscreen slideshow viewer for a PDF deck
+     (PPDR, PDR, CDR, etc). Sits inside .entry__media, positioned
+     over the image itself so it's immediately visible.
+     ============================================================ */
+  .entry__media-decks{
+    position:absolute;
+    left:16px;
+    bottom:16px;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .deck-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(10,10,10,0.62);
+    border:none;
+    border-radius:3px;
+    padding:7px 12px;
+    font-family:var(--font-serif);
+    font-size:12.5px;
+    font-weight:400;
+    letter-spacing:0.02em;
+    color:var(--white);
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .deck-link:hover{background:rgba(10,10,10,0.82);color:var(--white);}
+  .deck-link__icon{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    flex-shrink:0;
+  }
+  .deck-link__label{white-space:nowrap;}
+  .deck-link__meta{
+    font-size:11px;
+    font-style:italic;
+    color:rgba(255,255,255,0.7);
+    white-space:nowrap;
+  }
+
+  @media (max-width:600px){
+    .entry__media-decks{left:10px;bottom:10px;}
+    .deck-link{padding:6px 10px;font-size:11.5px;}
+    .deck-link__meta{display:none;}
+  }
+
+  .deckbox{
+    position:fixed;
+    inset:0;
+    z-index:110;
+    background:rgba(10,10,10,0.92);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .deckbox[hidden]{display:none;}
+  .deckbox__stage{
+    position:relative;
+    width:100%;
+    max-width:1200px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .deckbox__title{
+    color:var(--white);
+    font-size:14px;
+    letter-spacing:0.03em;
+    margin-bottom:12px;
+    text-align:center;
+  }
+  .deckbox__img-wrap{
+    position:relative;
+    width:100%;
+    min-height:200px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#151515;
+    border:1px solid rgba(255,255,255,0.12);
+  }
+  .deckbox__img-wrap canvas{
+    max-width:100%;
+    max-height:80vh;
+    width:auto;
+    height:auto;
+    display:block;
+  }
+  .deckbox__loading{
+    color:#ccc;
+    font-size:13px;
+    letter-spacing:0.03em;
+    padding:60px 20px;
+  }
+  .deckbox__loading[hidden]{display:none;}
+  .deckbox__counter{
+    color:#ddd;
+    font-size:12px;
+    letter-spacing:0.05em;
+    margin-top:12px;
+  }
+  .deckbox__close{
+    position:absolute;
+    top:-6px;right:-6px;
+    background:rgba(255,255,255,0.12);
+    color:var(--white);
+    border:none;
+    font-family:var(--font-serif);
+    font-size:20px;
+    line-height:1;
+    width:34px;height:34px;
+    border-radius:50%;
+    cursor:pointer;
+    z-index:3;
+  }
+  .deckbox__prev,
+  .deckbox__next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(255,255,255,0.12);
+    color:var(--white);
+    border:none;
+    font-family:var(--font-serif);
+    font-size:26px;
+    width:42px;height:52px;
+    cursor:pointer;
+    z-index:3;
+  }
+  .deckbox__prev{left:-6px;}
+  .deckbox__next{right:-6px;}
+  .deckbox__close:hover,
+  .deckbox__prev:hover,
+  .deckbox__next:hover{background:rgba(255,255,255,0.24);}
+
+  @media (max-width:700px){
+    .deckbox{padding:0;}
+    .deckbox__stage{max-width:100%;height:100%;justify-content:center;}
+    .deckbox__title{padding:0 44px;}
+    .deckbox__img-wrap canvas{max-height:62vh;}
+    .deckbox__close{top:10px;right:10px;}
+    .deckbox__prev,
+    .deckbox__next{width:38px;height:46px;font-size:22px;}
+    .deckbox__prev{left:4px;}
+    .deckbox__next{right:4px;}
+  }
+
+  /* ============================================================
      SKILLS
      ============================================================ */
   .skills__row{
@@ -737,6 +909,22 @@
           <img class="photo" src="RWG_Cover.png" alt="Formula SAE rear wing on the car" data-caption="Photo of the current 2027 rear wing.">
           <img class="photo" src="RWG_2d_cfd.png" alt="Rear wing 2D CFD pressure contour" data-caption="2D CFD simulation on the rear wing used to determine airfoil profiles.">
           <img class="photo" src="RWG_Airfoils.png" alt="Rear wing airfoil profiles" data-caption="Panel solver used to analyze many airfoils' standalone performance and narrow the selection process.">
+
+          <!--
+            DESIGN REVIEW DECKS — badge overlaid on the cover photo
+            that opens a fullscreen slideshow of a PDF, rendered
+            right in the page (no download, no need to export slide
+            images). To add another deck (e.g. the PDR), copy the
+            whole <button class="deck-link"> block, point data-pdf
+            at that PDF file, and update the label/date/title text.
+          -->
+          <div class="entry__media-decks">
+            <button class="deck-link" type="button" data-pdf="27x_RWG_PPDR.pdf" data-deck-title="Rear Wing Pre-PDR — 8/27/2026">
+              <span class="deck-link__icon">&#9656;</span>
+              <span class="deck-link__label">View Pre-PDR Slideshow</span>
+              <span class="deck-link__meta">8/27/2026</span>
+            </button>
+          </div>
 
           <span class="entry__media__hint"></span>
         </div>
@@ -1046,6 +1234,127 @@
     </div>
   </div>
 
+  <!-- ============================================================
+       DECKBOX — shared fullscreen slideshow viewer for design
+       review decks. Renders a PDF's pages directly in the browser
+       via PDF.js — no download, no pre-exported slide images.
+       Wired up automatically to every .deck-link button.
+       ============================================================ -->
+  <div id="deckbox" class="deckbox" hidden>
+    <div class="deckbox__stage">
+      <button class="deckbox__close" type="button" aria-label="Close">&times;</button>
+      <div class="deckbox__title"></div>
+      <div class="deckbox__img-wrap">
+        <button class="deckbox__prev" type="button" aria-label="Previous slide">&#8249;</button>
+        <div class="deckbox__loading">Loading slideshow…</div>
+        <canvas hidden></canvas>
+        <button class="deckbox__next" type="button" aria-label="Next slide">&#8250;</button>
+      </div>
+      <div class="deckbox__counter"></div>
+    </div>
+  </div>
+
+  <!-- PDF.js — renders the referenced PDF's pages to a canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+  (function(){
+    var deckbox = document.getElementById('deckbox');
+    var deckCanvas = deckbox.querySelector('.deckbox__img-wrap canvas');
+    var deckLoading = deckbox.querySelector('.deckbox__loading');
+    var deckTitle = deckbox.querySelector('.deckbox__title');
+    var deckCounter = deckbox.querySelector('.deckbox__counter');
+    var deckClose = deckbox.querySelector('.deckbox__close');
+    var deckPrev = deckbox.querySelector('.deckbox__prev');
+    var deckNext = deckbox.querySelector('.deckbox__next');
+    var ctx = deckCanvas.getContext('2d');
+
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    var currentPdf = null;
+    var currentPage = 1;
+    var totalPages = 1;
+    var renderToken = 0;
+
+    function renderPage(num){
+      if (!currentPdf) return;
+      var myToken = ++renderToken;
+      currentPdf.getPage(num).then(function(page){
+        if (myToken !== renderToken) return; // a newer render request superseded this one
+        var unscaled = page.getViewport({ scale: 1 });
+        var maxWidth = Math.min(window.innerWidth * 0.9, 1200);
+        var maxHeight = window.innerHeight * 0.8;
+        var scale = Math.min(maxWidth / unscaled.width, maxHeight / unscaled.height);
+        var viewport = page.getViewport({ scale: scale });
+        deckCanvas.width = viewport.width;
+        deckCanvas.height = viewport.height;
+        page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function(){
+          if (myToken !== renderToken) return;
+          deckLoading.hidden = true;
+          deckCanvas.hidden = false;
+          deckCounter.textContent = num + ' / ' + totalPages;
+        });
+      });
+    }
+
+    function openDeck(url, title){
+      deckTitle.textContent = title || '';
+      deckCounter.textContent = '';
+      deckCanvas.hidden = true;
+      deckLoading.hidden = false;
+      deckLoading.textContent = 'Loading slideshow…';
+      deckbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+
+      if (!window.pdfjsLib) {
+        deckLoading.textContent = 'Could not load the PDF viewer.';
+        return;
+      }
+
+      pdfjsLib.getDocument(url).promise.then(function(pdf){
+        currentPdf = pdf;
+        totalPages = pdf.numPages;
+        currentPage = 1;
+        renderPage(currentPage);
+      }).catch(function(){
+        deckLoading.textContent = 'Could not load this PDF.';
+      });
+    }
+
+    function closeDeck(){
+      deckbox.hidden = true;
+      document.body.style.overflow = '';
+      currentPdf = null;
+    }
+
+    function nextSlide(){ if (currentPage < totalPages){ currentPage++; deckCanvas.hidden = true; deckLoading.hidden = false; deckLoading.textContent = 'Loading slideshow…'; renderPage(currentPage); } }
+    function prevSlide(){ if (currentPage > 1){ currentPage--; deckCanvas.hidden = true; deckLoading.hidden = false; deckLoading.textContent = 'Loading slideshow…'; renderPage(currentPage); } }
+
+    document.querySelectorAll('.deck-link').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.stopPropagation(); // don't also trigger the cover photo's lightbox
+        openDeck(btn.getAttribute('data-pdf'), btn.getAttribute('data-deck-title'));
+      });
+    });
+
+    deckClose.addEventListener('click', closeDeck);
+    deckNext.addEventListener('click', function(e){ e.stopPropagation(); nextSlide(); });
+    deckPrev.addEventListener('click', function(e){ e.stopPropagation(); prevSlide(); });
+
+    deckbox.addEventListener('click', function(e){
+      if (e.target === deckbox) closeDeck();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (deckbox.hidden) return;
+      if (e.key === 'Escape') closeDeck();
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+  })();
+  </script>
+
   <script>
   (function(){
     var lightbox = document.getElementById('lightbox');
@@ -1142,8 +1451,12 @@
       if (hint){
         hint.textContent = count > 1 ? ('View ' + count + ' photos') : 'View photo';
       }
-      mediaEl.addEventListener('click', function(){ open(mediaEl); });
+      mediaEl.addEventListener('click', function(e){
+        if (e.target.closest('.deck-link')) return; // deck badge handles its own click
+        open(mediaEl);
+      });
       mediaEl.addEventListener('keydown', function(e){
+        if (e.target.closest('.deck-link')) return; // let the button handle its own keys
         if (e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
           open(mediaEl);
