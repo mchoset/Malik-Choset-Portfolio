@@ -267,19 +267,6 @@
     white-space:nowrap;
   }
 
-  .entry__badge{
-    display:inline-block;
-    margin-left:10px;
-    font-size:11px;
-    font-variant-caps:all-small-caps;
-    letter-spacing:0.05em;
-    color:var(--accent);
-    border:1px solid var(--accent);
-    border-radius:3px;
-    padding:2px 8px;
-    vertical-align:middle;
-  }
-
   .entry__row--sub{margin-top:2px;}
   .entry__role,
   .entry__tools{
@@ -887,7 +874,7 @@
       <!-- Project 1: Formula SAE Rear Wing -->
       <article class="entry entry--wide-overview" id="project-1">
         <div class="entry__row">
-          <span class="entry__title">Formula SAE Rear Wing<span class="entry__badge">In Progress</span></span>
+          <span class="entry__title">Formula SAE Rear Wing</span>
           <span class="entry__meta">Carnegie Mellon Racing</span>
         </div>
         <div class="entry__row entry__row--sub">
@@ -906,25 +893,15 @@
         -->
         <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE Rear Wing">
 
-          <img class="photo" src="RWG_Cover.png" alt="Formula SAE rear wing on the car" data-caption="Photo of the current 2027 rear wing.">
-          <img class="photo" src="RWG_2d_cfd.png" alt="Rear wing 2D CFD pressure contour" data-caption="2D CFD simulation on the rear wing used to determine airfoil profiles.">
-          <img class="photo" src="RWG_Airfoils.png" alt="Rear wing airfoil profiles" data-caption="Panel solver used to analyze many airfoils' standalone performance and narrow the selection process.">
-
-          <!--
-            DESIGN REVIEW DECKS — badge overlaid on the cover photo
-            that opens a fullscreen slideshow of a PDF, rendered
-            right in the page (no download, no need to export slide
-            images). To add another deck (e.g. the PDR), copy the
-            whole <button class="deck-link"> block, point data-pdf
-            at that PDF file, and update the label/date/title text.
-          -->
-          <div class="entry__media-decks">
-            <button class="deck-link" type="button" data-pdf="27x_RWG_PPDR.pdf" data-deck-title="Rear Wing Pre-PDR — 8/27/2026">
-              <span class="deck-link__icon">&#9656;</span>
-              <span class="deck-link__label">View Pre-PDR Slideshow</span>
-              <span class="deck-link__meta">8/27/2026</span>
-            </button>
-          </div>
+          <img class="photo" src="RWG_Cover.jpg" alt="Rear wing CAD assembly" data-caption="CAD of the 2027 four-element rear wing: main element and three flaps between the endplates, swan-neck mounts with tensioned cross-cables on top, and lower struts underneath">
+          <img class="photo" src="RWG_On_Car.jpg" alt="Rear wing CAD mounted on the main roll hoop and monocoque" data-caption="The rear wing in place on the car: the swan necks hang the wing from the top of the main roll hoop, and the lower struts brace it down to the chassis.">
+          <img class="photo" src="RWG_CFD_Current.jpg" alt="2D CFD velocity slice of the four-element chain" data-caption="2D CFD velocity slice of the current element chain (red = fast, blue = slow). A higher-camber main element runs at a low angle of attack, which lets the lower-camber flaps above it run more aggressively. Each trailing edge lines up with the suction side of the next element to keep the gaps tight.">
+          <img class="photo" src="RWG_CFD_Skidpad.jpg" alt="2D CFD velocity slice in skidpad conditions" data-caption="The same chain simulated in skidpad (steady cornering) conditions: downforce drops only slightly, and flow stays attached on every element.">
+          <img class="photo" src="RWG_CFD_Inboard.jpg" alt="2D CFD velocity slice of the inboard section behind the driver" data-caption="Inboard section directly behind the driver's helmet (black circle). The helmet's wake leaves little energetic air, so the center of the main element runs a much gentler profile than the outboard sections.">
+          <img class="photo" src="RWG_Ribs.jpg" alt="Aluminum main element ribs" data-caption="Waterjet aluminum main-element ribs. The swan-neck and strut mounting tabs are cut into the ribs themselves, and slots interlock them with the spars.">
+          <img class="photo" src="RWG_Spars.jpg" alt="Main element spars" data-caption="Carbon/Nomex sandwich spars. They contact both the top and bottom skins for more bonding area and skin support, and slot together with the ribs.">
+          <img class="photo" src="RWG_Cables.jpg" alt="Crossed tensioning cables between the swan necks" data-caption="Crossed, tensioned cables between the swan necks and the main roll hoop, added to remove the mounting slop that affected past wings.">
+          <img class="photo" src="RWG_Quick_Pin.jpg" alt="Quick-release pin at the cable mount" data-caption="Each cable wraps around a 28 g quick-release pin; pulling the pins frees the wing for removal.">
 
           <span class="entry__media__hint"></span>
         </div>
@@ -935,10 +912,11 @@
         <div class="entry__details">
           <div class="entry__bullets">
 
-            <p><strong>Choosing an airfoil</strong></p>
+            <p><strong>Goals</strong></p>
             <ul>
-              <li>The rear wing is the limiting factor for downforce on an FSAE car — the front wing interacts with clean free-stream air and can generate more lift, while the rear wing works in dirty air.</li>
-              <li>Airfoil selection therefore prioritizes lift over aerodynamic efficiency (lift/drag), so the rear wing does not limit the front wing's performance.</li>
+              <li>Maximize downforce in autocross and skidpad: the rear wing is currently the bottleneck for the aero package's downforce.</li>
+              <li>Minimize drag in endurance and acceleration.</li>
+              <li>Fix past problems: airfoil choice, a wing that was a pain to remove, slop in the mounting, and poor control of flap position and gap spacing.</li>
             </ul>
 
             <p><strong>Theory</strong></p>
@@ -946,34 +924,45 @@
               <li>Popular "high-downforce" airfoils (MSHD, S1223) use large camber and produce strong lift as standalone sections, but perform poorly in a multi-element chain.</li>
               <li>Large camber creates a strong adverse pressure gradient on the suction side. When free-stream air re-enters the multi-element chain, it hits a boundary layer already fighting that gradient, causing sharp pressure spikes.</li>
               <li>Given realistic manufacturing tolerances, these pressure spikes make the wing unstable.</li>
-              <li>Lower-camber airfoils in the multi-element array avoid this problem: this year's array uses NACA 8420 and NACA 7412.</li>
-              <li>A multi-element array works by generating effective camber through element interaction, not through individual airfoil camber — so using lower-camber sections avoids the adverse pressure gradient and spikes.</li>
+              <li>A multi-element array generates effective camber through element interaction, not through individual airfoil camber, so lower-camber sections avoid the adverse pressure gradient and spikes.</li>
             </ul>
 
-            <p><strong>Selection process</strong></p>
+            <p><strong>Airfoil development</strong></p>
             <ul>
-              <li>Started with a 3-element NACA 4420–4412–4412 chain.</li>
-              <li>Increased main-element camber until flow separation occurred at NACA 9420; selected NACA 8420 as the conservative choice one step below.</li>
-              <li>Repeated the process for the flaps: separation occurred at NACA 8412, so NACA 7412 was selected.</li>
+              <li><em>Starting point:</em> a moderately cambered, thick main element at a high angle of attack, followed by thinner, lower-camber flaps.</li>
+              <li><em>Main-element chord:</em> swept across a range of chord lengths, picking the one with the best flow attachment and suction for the most downforce.</li>
+              <li><em>Main-element change:</em> the main element wasn't accelerating air nearly as much as a high-camber chain, and the main and secondary elements sat at similar angles of attack. Increasing main-element camber and roughly halving its angle of attack let the secondary's angle of attack be pushed harder.</li>
+              <li><em>Gap spacing:</em> each element's trailing edge lines up with the suction side of the next, which forces tight gaps.</li>
+              <li><em>Flap AoA:</em> flap angles were raised to reattach flow that was separating off the secondary element.</li>
+              <li><em>Main element is not a straight 2D extrusion:</em> directly behind the driver's head the air is dirty and separates easily, so the center section runs a much gentler profile than the outboard sections.</li>
             </ul>
 
-            <p><strong>Other array parameters</strong></p>
+            <p><strong>Performance studies</strong></p>
             <ul>
-              <li><em>Element count (3 vs. 4):</em> compared directly — added a 4th element only if the CL gain justified the mass increase.</li>
-              <li><em>AoA per element:</em> increased until flow separation occurred.</li>
+              <li><em>Two configurations:</em> the low-drag configuration has a small fraction of the high-downforce configuration's drag.</li>
+              <li><em>Skidpad:</em> downforce drops only slightly in cornering, and flow stays attached.</li>
+              <li><em>Tolerance sensitivity:</em> deliberately closing every gap by a few millimeters caused only a small loss in downforce.</li>
+            </ul>
+
+            <p><strong>3 vs. 4 elements</strong></p>
+            <ul>
+              <li>A fourth element adds downforce at the cost of extra mass. Both options were compared using CFD and a detailed mass estimate.</li>
+              <li>The mass estimates account for carbon schedules, film adhesive, Nomex, epoxy, foam, hardware, tabs, and cables.</li>
             </ul>
 
             <p><strong>Adjustability</strong></p>
             <ul>
               <li>The rear wing must switch between low-drag and high-downforce configurations.</li>
-              <li>Achieved by rotating each element (except the main element) about an axis to change AoA (detailed in the DRS project).</li>
-              <li>Low-drag configuration is used for events like acceleration; high-downforce for events like skidpad.</li>
+              <li>Low-drag configuration is used for events like acceleration and endurance; high-downforce for events like autocross and skidpad.</li>
             </ul>
 
-            <p><strong>Other parameters tested in CFD</strong></p>
+            <p><strong>Structure &amp; mounting</strong></p>
             <ul>
-              <li><em>Swan-neck mounting:</em> keeps the suction side of the airfoil completely clean, significantly increasing lift. Trade-off: less structurally sound than conventional mounting rods.</li>
-              <li><em>Main element is not a straight 2D extrusion:</em> airflow quality varies across its span. Directly behind the driver's head, the air is dirty and separates easily. Solution: more aggressive AoA toward the outboard sections, tapering to near-zero AoA at the center.</li>
+              <li><em>Main element:</em> waterjet aluminum ribs with the mounting tabs built in, slotted into Carbon/Nomex sandwich spars. Foam ribs let the endplates clamp to the main element without loading the skin.</li>
+              <li><em>Flaps:</em> aluminum ribs instead of foam cores, because foam-core flaps would add noticeable mass.</li>
+              <li><em>Swan necks:</em> keep the suction side of the airfoil completely clean, significantly increasing lift. They attach to the main roll hoop through 4130 steel tabs.</li>
+              <li><em>Cables:</em> crossed, tensioned cables eliminate the mounting slop of past wings. They wrap around quick-release pins that come out when the wing is removed.</li>
+              <li><em>Lower struts:</em> brace the main element to the chassis.</li>
             </ul>
 
           </div>
