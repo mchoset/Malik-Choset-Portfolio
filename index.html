@@ -308,16 +308,6 @@
   .entry__media .photo img,
   .entry__media .photo video{width:100%;display:block;}
 
-  /* Smaller cover for the EigenBot entries — 1/3 the normal width */
-  .entry__media--small{max-width:33%;margin-left:auto;margin-right:auto;}
-
-  @media (max-width:600px){
-    .entry__media--small{max-width:60%;}
-  }
-  @media (max-width:420px){
-    .entry__media--small{max-width:75%;}
-  }
-
   /* Hide the "View N photos" badge on specific entries */
   .entry__media--no-hint .entry__media__hint{display:none;}
 
@@ -893,15 +883,17 @@
         -->
         <div class="entry__media" tabindex="0" role="button" aria-label="View photos and description for Formula SAE Rear Wing">
 
-          <img class="photo" src="RWG_Cover.jpg" alt="Rear wing CAD assembly" data-caption="CAD of the 2027 four-element rear wing: main element and three flaps between the endplates, swan-neck mounts with tensioned cross-cables on top, and lower struts underneath">
-          <img class="photo" src="RWG_On_Car.jpg" alt="Rear wing CAD mounted on the main roll hoop and monocoque" data-caption="The rear wing in place on the car: the swan necks hang the wing from the top of the main roll hoop, and the lower struts brace it down to the chassis.">
-          <img class="photo" src="RWG_CFD_Current.jpg" alt="2D CFD velocity slice of the four-element chain" data-caption="2D CFD velocity slice of the current element chain (red = fast, blue = slow). A higher-camber main element runs at a low angle of attack, which lets the lower-camber flaps above it run more aggressively. Each trailing edge lines up with the suction side of the next element to keep the gaps tight.">
-          <img class="photo" src="RWG_CFD_Skidpad.jpg" alt="2D CFD velocity slice in skidpad conditions" data-caption="The same chain simulated in skidpad (steady cornering) conditions: downforce drops only slightly, and flow stays attached on every element.">
-          <img class="photo" src="RWG_CFD_Inboard.jpg" alt="2D CFD velocity slice of the inboard section behind the driver" data-caption="Inboard section directly behind the driver's helmet (black circle). The helmet's wake leaves little energetic air, so the center of the main element runs a much gentler profile than the outboard sections.">
-          <img class="photo" src="RWG_Ribs.jpg" alt="Aluminum main element ribs" data-caption="Waterjet aluminum main-element ribs. The swan-neck and strut mounting tabs are cut into the ribs themselves, and slots interlock them with the spars.">
-          <img class="photo" src="RWG_Spars.jpg" alt="Main element spars" data-caption="Carbon/Nomex sandwich spars. They contact both the top and bottom skins for more bonding area and skin support, and slot together with the ribs.">
-          <img class="photo" src="RWG_Cables.jpg" alt="Crossed tensioning cables between the swan necks" data-caption="Crossed, tensioned cables between the swan necks and the main roll hoop, added to remove the mounting slop that affected past wings.">
-          <img class="photo" src="RWG_Quick_Pin.jpg" alt="Quick-release pin at the cable mount" data-caption="Each cable wraps around a 28 g quick-release pin; pulling the pins frees the wing for removal.">
+          <img class="photo" src="RWG_Cover.jpg" alt="Rear wing CAD assembly" data-caption="CAD of the 2027 three-element rear wing: a main element and two flaps between the endplates, carbon swan necks with tensioned cross-cables on top, and carbon struts underneath.">
+          <img class="photo" src="RWG_Gap_Lineup.jpg" alt="Sketch of the main element trailing edge lined up with the secondary element" data-caption="Gap-spacing construction: the main element's trailing edge is lined up with the suction side of the secondary element, which forces a tight, consistent gap between them.">
+          <img class="photo" src="RWG_CFD_Current.jpg" alt="2D CFD velocity slice of the four-element chain" data-caption="2D CFD velocity slice of the four-element chain after the flap study. A higher-camber main element at a low angle of attack lets the lower-camber flaps above it run more aggressively, and flow stays attached on every element.">
+          <img class="photo" src="RWG_Inboard_CFD.jpg" alt="2D CFD velocity slice of the inboard section behind the driver" data-caption="Inboard section directly behind the driver's helmet (black circle). The helmet's wake leaves little energetic air, so the center of the main element runs a much gentler profile than the outboard sections.">
+          <img class="photo" src="RWG_Load_Path.jpg" alt="Critical load path through the rear wing structure" data-caption="Critical load path (red): aero and inertial loads travel from the main element through the swan-neck ribs into the swan necks and cables at the top of the main roll hoop, and down the struts to the lower roll hoop tabs.">
+          <img class="photo" src="RWG_Ribs.jpg" alt="Aluminum swan-neck rib" data-caption="Waterjet 6061-T6 swan-neck rib. The swan-neck mounting lugs are cut into the rib itself, and the slots interlock it with the spars.">
+          <img class="photo" src="RWG_Spars.jpg" alt="Main element spars" data-caption="Carbon spars laid up on a glass panel. They step around the center section of the main element and slot together with the ribs.">
+          <img class="photo" src="RWG_Rib_FEA.jpg" alt="FEA safety factor plot of the swan-neck rib" data-caption="Ansys Mechanical safety-factor plot for a swan-neck rib under the combined worst-case load. Reaction loads come from the hand calc, and the bond to the spars is modeled as an elastic support based on the epoxy's stiffness instead of a rigid fixture.">
+          <img class="photo" src="RWG_Swan_Neck_FEA.jpg" alt="Composite FEA deformation plot of the carbon swan neck" data-caption="Composite FEA of the carbon swan neck with bonded aluminum inserts at each bolt hole. The carbon version deflected far less than an aluminum one at a lower mass, so the swan necks were switched to carbon.">
+          <img class="photo" src="RWG_Quick_Pin.jpg" alt="Quick-release pin at the cable mount" data-caption="Each cable runs through an aluminum tab on the swan neck held by a quick-release pin; pulling the pins frees the cables for wing removal.">
+          <img class="photo" src="RWG_Main_Mold.jpg" alt="Main element female mold with rib and spar structure" data-caption="Main element female mold. The bottom skin is laid up first, then the lap-joint section of the mold is swapped for the full upper half without demolding, so the airfoil closes around the cured rib-and-spar structure.">
 
           <span class="entry__media__hint"></span>
         </div>
@@ -917,6 +909,7 @@
               <li>Maximize downforce in autocross and skidpad: the rear wing is currently the bottleneck for the aero package's downforce.</li>
               <li>Minimize drag in endurance and acceleration.</li>
               <li>Fix past problems: airfoil choice, a wing that was a pain to remove, slop in the mounting, and poor control of flap position and gap spacing.</li>
+              <li>Meet FSAE rules: stay inside the rear aero bounding box, keep the ready-to-move light visible, pass the inspection push test for deflection, and mount to the main roll hoop only at braced nodes.</li>
             </ul>
 
             <p><strong>Theory</strong></p>
@@ -929,40 +922,49 @@
 
             <p><strong>Airfoil development</strong></p>
             <ul>
-              <li><em>Starting point:</em> a moderately cambered, thick main element at a high angle of attack, followed by thinner, lower-camber flaps.</li>
-              <li><em>Main-element chord:</em> swept across a range of chord lengths, picking the one with the best flow attachment and suction for the most downforce.</li>
-              <li><em>Main-element change:</em> the main element wasn't accelerating air nearly as much as a high-camber chain, and the main and secondary elements sat at similar angles of attack. Increasing main-element camber and roughly halving its angle of attack let the secondary's angle of attack be pushed harder.</li>
+              <li><em>Validation:</em> airfoils were chosen from 2D CFD, then checked in 3D against the previous year's wing.</li>
+              <li><em>Main element chord:</em> swept a range of chord lengths with the flaps scaling alongside, picking the one with the best flow attachment and suction.</li>
+              <li><em>Main element change:</em> the main element wasn't accelerating air as much as a high-camber chain, and the main and secondary elements sat at similar angles of attack. Increasing main element camber and lowering its angle of attack let the secondary's angle of attack be pushed harder.</li>
               <li><em>Gap spacing:</em> each element's trailing edge lines up with the suction side of the next, which forces tight gaps.</li>
-              <li><em>Flap AoA:</em> flap angles were raised to reattach flow that was separating off the secondary element.</li>
+              <li><em>Flap angle of attack:</em> flap angles were raised to reattach flow separating off the secondary element, adjusting the flaps above each change to hold gap spacing and trailing-edge alignment.</li>
+              <li><em>Skidpad check:</em> in steady cornering, downforce drops only slightly and flow stays attached on every element.</li>
               <li><em>Main element is not a straight 2D extrusion:</em> directly behind the driver's head the air is dirty and separates easily, so the center section runs a much gentler profile than the outboard sections.</li>
             </ul>
 
-            <p><strong>Performance studies</strong></p>
+            <p><strong>Aero optimization</strong></p>
             <ul>
-              <li><em>Two configurations:</em> the low-drag configuration has a small fraction of the high-downforce configuration's drag.</li>
-              <li><em>Skidpad:</em> downforce drops only slightly in cornering, and flow stays attached.</li>
-              <li><em>Tolerance sensitivity:</em> deliberately closing every gap by a few millimeters caused only a small loss in downforce.</li>
-            </ul>
-
-            <p><strong>3 vs. 4 elements</strong></p>
-            <ul>
-              <li>A fourth element adds downforce at the cost of extra mass. Both options were compared using CFD and a detailed mass estimate.</li>
-              <li>The mass estimates account for carbon schedules, film adhesive, Nomex, epoxy, foam, hardware, tabs, and cables.</li>
-            </ul>
-
-            <p><strong>Adjustability</strong></p>
-            <ul>
-              <li>The rear wing must switch between low-drag and high-downforce configurations.</li>
-              <li>Low-drag configuration is used for events like acceleration and endurance; high-downforce for events like autocross and skidpad.</li>
+              <li><em>3 vs. 4 elements:</em> compared both in CFD alongside a detailed mass estimate (carbon schedules, adhesive, foam, hardware, tabs, cables). The fourth element added very little downforce for its mass, so it was removed and the freed space was used to raise the whole wing into cleaner air.</li>
+              <li><em>Angle-of-attack sweep:</em> starting from the preliminary angles, simulated every combination of main, secondary, and tertiary angles on a grid, then re-centered the grid on the best result and swept again until the improvement leveled off.</li>
+              <li><em>Gap and overhang tolerancing:</em> perturbed each gap and overhang by a couple of millimeters, fit a quadratic response surface to the results, and found the window where downforce stays within an acceptable band. Those windows became the manufacturing tolerances; the upstream gap needs the tightest one, since it conditions the flow for every element behind it.</li>
+              <li><em>Endplate size:</em> swept the endplate extension below the main element and trimmed it to the smallest size that kept full performance.</li>
+              <li><em>Swan necks:</em> the LiDAR mount on the roll hoop sheds a wake onto the wing. Large swan-neck plates act as fences that keep that dirty air in the middle of the span; small swan necks let it spread and cost significant downforce.</li>
             </ul>
 
             <p><strong>Structure &amp; mounting</strong></p>
             <ul>
-              <li><em>Main element:</em> waterjet aluminum ribs with the mounting tabs built in, slotted into Carbon/Nomex sandwich spars. Foam ribs let the endplates clamp to the main element without loading the skin.</li>
-              <li><em>Flaps:</em> aluminum ribs instead of foam cores, because foam-core flaps would add noticeable mass.</li>
-              <li><em>Swan necks:</em> keep the suction side of the airfoil completely clean, significantly increasing lift. They attach to the main roll hoop through 4130 steel tabs.</li>
-              <li><em>Cables:</em> crossed, tensioned cables eliminate the mounting slop of past wings. They wrap around quick-release pins that come out when the wing is removed.</li>
-              <li><em>Lower struts:</em> brace the main element to the chassis.</li>
+              <li><em>Main element:</em> carbon skin over waterjet 6061-T6 ribs slotted into carbon spars. The two swan-neck ribs carry the mounting lugs, and the outer ribs bolt to the endplates through foam ribs so the endplates don't clamp onto the skin.</li>
+              <li><em>Flaps:</em> carbon skins over aluminum ribs on a carbon rod spar, bolted to the endplates through aluminum hardpoints. The endplates are structural as well as aerodynamic.</li>
+              <li><em>Swan necks:</em> carbon plates with a lighter layup in the purely aerodynamic section, bolted to 4130 steel tabs welded to the main roll hoop.</li>
+              <li><em>Cables:</em> crossed, pre-tensioned cables run from eyebolt tabs on the roll hoop to the swan necks, eliminating the mounting slop of past wings. Quick-release pins free them for removal.</li>
+              <li><em>Struts:</em> carbon tubes with rod ends carry most of the vertical load from the front spar down to the lower roll hoop tabs. They sit as far outboard as buckling allows to reduce bending along the span.</li>
+            </ul>
+
+            <p><strong>Structural analysis</strong></p>
+            <ul>
+              <li><em>Load case:</em> worst-case combination of peak downforce and drag, maximum side force, a 5 g bump, and 1.7 g lateral acceleration.</li>
+              <li><em>Hand calc:</em> a rigid-body free-body diagram of the wing solves the reactions at the swan-neck tabs, cables, and struts, which feed every downstream FEA.</li>
+              <li><em>FEA:</em> every part on the critical load path (ribs, roll hoop tabs, eyebolt tab, cable-pin tab, strut-spar tab) checked in Ansys Mechanical against a per-part factor-of-safety target. Flap rib loads were mapped from the CFD pressure distribution.</li>
+              <li><em>Composites:</em> the carbon swan neck was modeled as a layered composite with bonded aluminum inserts, checking ply failure and deflection.</li>
+              <li><em>Hand checks:</em> Euler buckling to size the strut tubes and placement, eyebolt thread stripping, and combined axial and bending stress on the eyebolts and rod ends from misalignment.</li>
+            </ul>
+
+            <p><strong>Manufacturing &amp; jigging</strong></p>
+            <ul>
+              <li><em>Main element:</em> female lap-joint mold. The rib-and-spar structure is bonded first in 3D printed jigs that keep every rib square to the spars, then the bottom skin is laid up and the mold's lap-joint section is swapped for the full upper half to close the airfoil.</li>
+              <li><em>Secondary element:</em> male mold; the cured skin is opened, and a rib-and-rod frame (aligned on glass with laser-cut spacers) and a foam trailing edge are bonded inside.</li>
+              <li><em>Tertiary element:</em> male mold with a female bottom section that forms the Gurney flap, trimmed to height with a sled jig.</li>
+              <li><em>Flat parts:</em> swan necks, endplates, and spars are laid up on glass panels; every part gets a sled jig for trimming.</li>
+              <li><em>Integration:</em> a car-scale jig locates the wing in six degrees of freedom off the ground and chassis tabs, the swan necks are match-drilled to the roll hoop tabs through a drill guide, and the struts are bolted in.</li>
             </ul>
 
           </div>
@@ -1087,72 +1089,6 @@
             <li>Prevented invalid gear geometry by implementing parameter-checking algorithms.</li>
             <li>Automated the 3D modeling of gear components using the SolidWorks API, eliminating CAD modeling time.</li>
             <li>Automated a manufacturing pipeline by scripting the export from SolidWorks, creating 3D printable files.</li>
-          </ul>
-        </div>
-      </article>
-
-      <hr class="divider">
-
-      <!-- Project 4: 2DoF Module — EigenBot -->
-      <article class="entry" id="project-4">
-        <div class="entry__row">
-          <span class="entry__title">2DoF Module — EigenBot</span>
-          <span class="entry__meta">CMU Robotics Institute</span>
-        </div>
-        <div class="entry__row entry__row--sub">
-          <span class="entry__role">Modular Robotics Research Assistant</span>
-          <span class="entry__tools">Ansys Mechanical · Fusion 360</span>
-        </div>
-
-        <div class="entry__media entry__media--small" tabindex="0" role="button" aria-label="View photos and description for 2DoF Module EigenBot">
-          
-          <img class="photo" src="2DoF_Cover.png" alt="EigenBot 2DoF module">
-          <img class="photo" src="2DoF_Actuated.png" alt="2DoF module actuated">
-          <img class="photo" src="2DoF_Size_Comparison.png" alt="2DoF module size comparison">
-          <img class="photo" src="2DoF_Setup_1.png" alt="2DoF module test setup 1">
-          <img class="photo" src="2DoF_Results_1.png" alt="2DoF module results plot 1">
-          <img class="photo" src="2DoF_Setup_2.png" alt="2DoF module test setup 2">
-          <img class="photo" src="2DoF_Results_2.png" alt="2DoF module results plot 2">
-
-          <span class="entry__media__hint"></span>
-        </div>
-
-        <div class="entry__details">
-          <ul class="entry__bullets">
-            <li>Developed a compact 2DoF module for the EigenBot system by optimizing motor packaging and material selections using Fusion 360, reducing the overall module form factor by 20 percent.</li>
-          </ul>
-        </div>
-      </article>
-
-      <hr class="divider">
-
-      <!-- Project 5: Robotic Gripper — EigenBot -->
-      <article class="entry" id="project-5">
-        <div class="entry__row">
-          <span class="entry__title">Robotic Gripper — EigenBot</span>
-          <span class="entry__meta">CMU Robotics Institute</span>
-        </div>
-        <div class="entry__row entry__row--sub">
-          <span class="entry__role">Modular Robotics Research Assistant</span>
-          <span class="entry__tools">Ansys Mechanical · Fusion 360</span>
-        </div>
-
-        <div class="entry__media entry__media--small" tabindex="0" role="button" aria-label="View photos and description for Robotic Gripper EigenBot">
-          <img class="photo" src="Gripper_Cover.png" alt="EigenBot force sensing gripper">
-
-          <img class="photo" src="Gripper_Cross_Section.png" alt="Gripper cross section view">
-
-          <video class="photo" controls>
-            <source src="Gripper_Displacements.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-
-          <span class="entry__media__hint"></span>
-        </div>
-
-        <div class="entry__details">
-          <ul class="entry__bullets">
-            <li>Developed a Hall-Effect force-sensing gripper and foot module for the EigenBot modular robot system, driven by FEA results from Ansys Mechanical.</li>
           </ul>
         </div>
       </article>
